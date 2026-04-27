@@ -20,29 +20,22 @@ export const useAuthStore = defineStore('auth', () => {
 
   const loginLoading = ref(false);
 
-  /**
-   * 异步处理登录操作
-   * Asynchronously handle the login process
-   * @param params 登录表单数据
-   */
   async function authLogin(
     params: Recordable<any>,
     onSuccess?: () => Promise<void> | void,
   ) {
-    // 异步处理用户登录操作并获取 accessToken
     let userInfo: null | UserInfo = null;
+
     try {
       loginLoading.value = true;
-      const { accessToken } = await loginApi(params);
+      const { token } = await loginApi(params);
 
-      // 如果成功获取到 accessToken
-      if (accessToken) {
-        accessStore.setAccessToken(accessToken);
+      if (token) {
+        accessStore.setAccessToken(token);
 
-        // 获取用户信息并存储到 accessStore 中
         const [fetchUserInfoResult, accessCodes] = await Promise.all([
           fetchUserInfo(),
-          getAccessCodesApi(),
+          getAccessCodesApi().catch(() => []),
         ]);
 
         userInfo = fetchUserInfoResult;
@@ -62,7 +55,7 @@ export const useAuthStore = defineStore('auth', () => {
 
         if (userInfo?.realName) {
           notification.success({
-            description: `${$t('authentication.loginSuccessDesc')}:${userInfo?.realName}`,
+            description: `${$t('authentication.loginSuccessDesc')}:${userInfo.realName}`,
             duration: 3,
             message: $t('authentication.loginSuccess'),
           });
@@ -81,12 +74,12 @@ export const useAuthStore = defineStore('auth', () => {
     try {
       await logoutApi();
     } catch {
-      // 不做任何处理
+      // ignore logout API failure and clear local auth state anyway
     }
+
     resetAllStores();
     accessStore.setLoginExpired(false);
 
-    // 回登录页带上当前路由地址
     await router.replace({
       path: LOGIN_PATH,
       query: redirect

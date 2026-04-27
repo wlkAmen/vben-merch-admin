@@ -1,6 +1,8 @@
-import type { Recordable, UserInfo } from '@vben/types';
+import type { Recordable } from '@vben/types';
 
-import { ref } from 'vue';
+import type { MerchantSessionPayload } from '#/api';
+
+import { computed, ref } from 'vue';
 import { useRouter } from 'vue-router';
 
 import { LOGIN_PATH } from '@vben/constants';
@@ -10,8 +12,12 @@ import { resetAllStores, useAccessStore, useUserStore } from '@vben/stores';
 import { ElNotification } from 'element-plus';
 import { defineStore } from 'pinia';
 
-import { getAccessCodesApi, getUserInfoApi, loginApi, logoutApi } from '#/api';
-import { $t } from '#/locales';
+import {
+  getAuthProfileApi,
+  loginApi,
+  logoutApi,
+  mapSessionToUserInfo,
+} from '#/api';
 
 export const useAuthStore = defineStore('auth', () => {
   const accessStore = useAccessStore();
@@ -19,75 +25,73 @@ export const useAuthStore = defineStore('auth', () => {
   const router = useRouter();
 
   const loginLoading = ref(false);
+  const sessionProfile = ref<MerchantSessionPayload | null>(null);
 
-  /**
-   * 异步处理登录操作
-   * Asynchronously handle the login process
-   * @param params 登录表单数据
-   */
+  const currentAdmin = computed(() => sessionProfile.value?.admin ?? null);
+  const currentMerchant = computed(
+    () => sessionProfile.value?.merchant ?? null,
+  );
+
+  function applySessionProfile(profile: MerchantSessionPayload | null) {
+    sessionProfile.value = profile;
+
+    if (!profile) {
+      userStore.setUserInfo(null);
+      accessStore.setAccessCodes([]);
+      return null;
+    }
+
+    accessStore.setAccessToken(profile.token || accessStore.accessToken);
+    accessStore.setAccessCodes([]);
+
+    const userInfo = mapSessionToUserInfo(profile);
+    userStore.setUserInfo(userInfo);
+    return userInfo;
+  }
+
   async function authLogin(
     params: Recordable<any>,
     onSuccess?: () => Promise<void> | void,
   ) {
-    // 异步处理用户登录操作并获取 accessToken
-    let userInfo: null | UserInfo = null;
     try {
       loginLoading.value = true;
-      const { accessToken } = await loginApi(params);
+      const session = await loginApi(params);
+      accessStore.setAccessToken(session.token);
+      const userInfo = applySessionProfile(session);
 
-      // 如果成功获取到 accessToken
-      if (accessToken) {
-        // 将 accessToken 存储到 accessStore 中
-        accessStore.setAccessToken(accessToken);
+      if (accessStore.loginExpired) {
+        accessStore.setLoginExpired(false);
+      } else {
+        onSuccess
+          ? await onSuccess?.()
+          : await router.push(
+              userInfo?.homePath || preferences.app.defaultHomePath,
+            );
+      }
 
-        // 获取用户信息并存储到 accessStore 中
-        const [fetchUserInfoResult, accessCodes] = await Promise.all([
-          fetchUserInfo(),
-          getAccessCodesApi(),
-        ]);
-
-        userInfo = fetchUserInfoResult;
-
-        userStore.setUserInfo(userInfo);
-        accessStore.setAccessCodes(accessCodes);
-
-        if (accessStore.loginExpired) {
-          accessStore.setLoginExpired(false);
-        } else {
-          onSuccess
-            ? await onSuccess?.()
-            : await router.push(
-                userInfo.homePath || preferences.app.defaultHomePath,
-              );
-        }
-
-        if (userInfo?.realName) {
-          ElNotification({
-            message: `${$t('authentication.loginSuccessDesc')}:${userInfo?.realName}`,
-            title: $t('authentication.loginSuccess'),
-            type: 'success',
-          });
-        }
+      if (userInfo?.realName) {
+        ElNotification({
+          message: `${currentMerchant.value?.name || '商家后台'}，欢迎回来`,
+          title: `你好，${userInfo.realName}`,
+          type: 'success',
+        });
       }
     } finally {
       loginLoading.value = false;
     }
-
-    return {
-      userInfo,
-    };
   }
 
   async function logout(redirect: boolean = true) {
     try {
       await logoutApi();
     } catch {
-      // 不做任何处理
+      // 忽略退出接口异常，前端仍然清理本地状态
     }
+
+    sessionProfile.value = null;
     resetAllStores();
     accessStore.setLoginExpired(false);
 
-    // 回登录页带上当前路由地址
     await router.replace({
       path: LOGIN_PATH,
       query: redirect
@@ -99,20 +103,24 @@ export const useAuthStore = defineStore('auth', () => {
   }
 
   async function fetchUserInfo() {
-    const userInfo = await getUserInfoApi();
-    userStore.setUserInfo(userInfo);
+    const session = await getAuthProfileApi();
+    const userInfo = applySessionProfile(session);
     return userInfo;
   }
 
   function $reset() {
     loginLoading.value = false;
+    sessionProfile.value = null;
   }
 
   return {
     $reset,
     authLogin,
+    currentAdmin,
+    currentMerchant,
     fetchUserInfo,
     loginLoading,
     logout,
+    sessionProfile,
   };
 });

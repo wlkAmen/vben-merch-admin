@@ -1,10 +1,8 @@
 import type { UserInfo } from '@vben/types';
 
-import { requestClient } from '#/api/request';
+import { getAuthProfileApi, mapSessionToUserInfo } from './auth';
 
-/**
- * 获取用户信息
- */
 export async function getUserInfoApi() {
-  return requestClient.get<UserInfo>('/user/info');
+  const session = await getAuthProfileApi();
+  return mapSessionToUserInfo(session) as UserInfo;
 }

@@ -1,4 +1,4 @@
-import { initPreferences } from '@vben/preferences';
+import { initPreferences, updatePreferences } from '@vben/preferences';
 import { unmountGlobalLoading } from '@vben/utils';
 
 import { overridesPreferences } from './preferences';
@@ -17,6 +17,13 @@ async function initApplication() {
   await initPreferences({
     namespace,
     overrides: overridesPreferences,
+  });
+
+  // 应用名称属于项目基线配置，不跟随历史偏好缓存漂移。
+  updatePreferences({
+    app: {
+      name: import.meta.env.VITE_APP_TITLE,
+    },
   });
 
   // 启动应用并挂载

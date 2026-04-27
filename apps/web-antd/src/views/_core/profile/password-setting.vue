@@ -7,6 +7,11 @@ import { ProfilePasswordSetting, z } from '@vben/common-ui';
 
 import { message } from 'ant-design-vue';
 
+import { changePasswordApi } from '#/api';
+import { useAuthStore } from '#/store';
+
+const authStore = useAuthStore();
+
 const formSchema = computed((): VbenFormSchema[] => {
   return [
     {
@@ -50,8 +55,10 @@ const formSchema = computed((): VbenFormSchema[] => {
   ];
 });
 
-function handleSubmit() {
-  message.success('密码修改成功');
+async function handleSubmit(values: Record<string, string>) {
+  await changePasswordApi(values);
+  message.success('密码修改成功，请重新登录');
+  await authStore.logout(false);
 }
 </script>
 <template>
