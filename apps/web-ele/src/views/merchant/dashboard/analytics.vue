@@ -2,6 +2,8 @@
 import type { AnalysisOverviewItem } from '@vben/common-ui';
 import type { TabOption } from '@vben/types';
 
+import type { DashboardSummary } from '#/api';
+
 import { computed, onMounted, ref } from 'vue';
 
 import {
@@ -19,7 +21,7 @@ import {
 
 import { ElMessage } from 'element-plus';
 
-import { getDashboardSummaryApi, type DashboardSummary } from '#/api';
+import { getDashboardSummaryApi } from '#/api';
 
 import MerchantAnalyticsMetrics from './modules/merchant-analytics-metrics.vue';
 import MerchantAnalyticsOrders from './modules/merchant-analytics-orders.vue';
@@ -108,10 +110,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <Page
-    auto-content-height
-    content-class="flex flex-col gap-4"
-  >
+  <Page auto-content-height content-class="flex flex-col gap-4">
     <div v-loading="loading">
       <AnalysisOverview :items="overviewItems" />
     </div>

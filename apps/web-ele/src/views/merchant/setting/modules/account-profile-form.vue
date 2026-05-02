@@ -8,10 +8,7 @@ import { VbenButton } from '@vben/common-ui';
 import { ElMessage } from 'element-plus';
 
 import { useVbenForm } from '#/adapter/form';
-import {
-  getAccountProfileApi,
-  updateAccountProfileApi,
-} from '#/api';
+import { getAccountProfileApi, updateAccountProfileApi } from '#/api';
 import { useAuthStore } from '#/store';
 import MerchantImageUpload from '#/views/merchant/common/image-upload.vue';
 
@@ -97,18 +94,39 @@ loadAccount();
 </script>
 
 <template>
-  <div v-loading="loading" class="grid gap-4" @keydown.enter.prevent="handleSubmit">
-    <div class="rounded-xl border p-4">
-      <div class="mb-3 text-sm font-medium">账号头像</div>
-      <MerchantImageUpload v-model="avatar" />
-      <div class="mt-3 text-xs text-muted-foreground">
-        用于账号资料展示，支持 JPG、PNG、WEBP，大小不超过 2MB。
+  <div
+    v-loading="loading"
+    class="grid gap-5"
+    @keydown.enter.prevent="handleSubmit"
+  >
+    <section class="rounded-2xl border bg-muted/15 p-4">
+      <div class="text-base font-semibold text-foreground">基础资料</div>
+      <div class="mt-1 text-sm text-muted-foreground">
+        用于后台账号识别与日常联系，不影响商家对外展示信息。
       </div>
-    </div>
+    </section>
 
-    <Form />
-    <VbenButton class="mt-4" type="submit" @click="handleSubmit">
-      保存账号资料
-    </VbenButton>
+    <section class="grid gap-4 xl:grid-cols-[280px_minmax(0,1fr)]">
+      <div class="rounded-2xl border p-4">
+        <div class="text-sm font-medium text-foreground">账号头像</div>
+        <div class="mt-3">
+          <MerchantImageUpload v-model="avatar" />
+        </div>
+        <div class="mt-3 text-xs leading-6 text-muted-foreground">
+          支持 JPG、PNG、WEBP，建议使用清晰的管理员头像，文件大小不超过 2MB。
+        </div>
+      </div>
+
+      <div class="rounded-2xl border p-4">
+        <div class="mb-4 text-sm font-medium text-foreground">资料表单</div>
+        <Form />
+      </div>
+    </section>
+
+    <div class="flex justify-end">
+      <VbenButton type="submit" @click="handleSubmit">
+        保存账号资料
+      </VbenButton>
+    </div>
   </div>
 </template>

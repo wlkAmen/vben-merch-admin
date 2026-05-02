@@ -1,4 +1,6 @@
 <script lang="ts" setup>
+import type { DashboardSummary } from '#/api';
+
 import { computed, onMounted, ref } from 'vue';
 import { useRouter } from 'vue-router';
 
@@ -8,7 +10,7 @@ import { preferences } from '@vben/preferences';
 
 import { ElButton, ElMessage, ElTag } from 'element-plus';
 
-import { getDashboardSummaryApi, type DashboardSummary } from '#/api';
+import { getDashboardSummaryApi } from '#/api';
 import { useAuthStore } from '#/store';
 
 import MerchantAnalyticsOrders from './modules/merchant-analytics-orders.vue';
@@ -79,7 +81,7 @@ const pendingTaskCount = computed(() => {
 
 const overviewCards = computed(() => [
   {
-    description: '含线路、门票、商品的当日成交结果',
+    description: '包含线路、门票、商品的当日成交结果',
     icon: 'lucide:wallet',
     label: '今日成交额',
     value: `${formatAmount(summary.value.today_turnover)} 元`,
@@ -121,7 +123,7 @@ const quickActions = computed<NavItem[]>(() => [
   },
   {
     color: 'bg-amber-500/10 text-amber-600',
-    description: '管理票种与景点票务',
+    description: '管理票种与景区门票',
     icon: 'lucide:ticket',
     title: '门票列表',
     url: '/ticket/list',
@@ -166,7 +168,7 @@ const pendingItems = computed(() => [
   },
   {
     count: totalProductCount.value,
-    description: '定期检查上架产品结构与价格策略。',
+    description: '定期检查在售产品结构、库存和定价。',
     icon: 'lucide:boxes',
     title: '在售产品总量',
     url: '/goods/list',
@@ -272,7 +274,10 @@ onMounted(() => {
                 <ElTag size="small" type="success">工作台</ElTag>
               </div>
               <p class="text-muted-foreground mt-2 text-sm leading-6">
-                当前登录账号为 {{ adminName }}，聚合今日订单、待办任务和产品状态，方便快速处理日常经营事务。
+                当前登录账号为
+                {{
+                  adminName
+                }}，聚合今日订单、待办任务和产品状态，方便快速处理日常经营事务。
               </p>
               <div
                 class="text-muted-foreground mt-3 flex flex-wrap items-center gap-x-4 gap-y-2 text-sm"
@@ -363,7 +368,9 @@ onMounted(() => {
                     {{ item.count }}
                   </span>
                 </span>
-                <span class="text-muted-foreground mt-1 block text-xs leading-5">
+                <span
+                  class="text-muted-foreground mt-1 block text-xs leading-5"
+                >
                   {{ item.description }}
                 </span>
               </span>
@@ -388,7 +395,9 @@ onMounted(() => {
               </span>
               <span class="min-w-0 flex-1">
                 <span class="block text-sm font-medium">{{ item.title }}</span>
-                <span class="text-muted-foreground mt-1 block text-xs leading-5">
+                <span
+                  class="text-muted-foreground mt-1 block text-xs leading-5"
+                >
                   {{ item.description }}
                 </span>
               </span>

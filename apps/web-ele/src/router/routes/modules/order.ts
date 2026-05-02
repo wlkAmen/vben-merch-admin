@@ -18,7 +18,8 @@ const routes: RouteRecordRaw[] = [
         meta: {
           icon: 'lucide:route',
           title: '线路订单',
-          description: '查看线路订单列表，支持关键词、状态、日期筛选，并可在弹层中查看订单详情。',
+          description:
+            '查看线路订单列表，支持关键词、状态、日期筛选，并可在弹窗中查看订单详情。',
         },
       },
       {
@@ -28,7 +29,8 @@ const routes: RouteRecordRaw[] = [
         meta: {
           icon: 'lucide:ticket',
           title: '门票订单',
-          description: '查看门票订单列表，支持筛选，并在详情中查看核销状态、游客和退款信息。',
+          description:
+            '查看门票订单列表，支持筛选，并在详情中查看核销状态、游客和退款信息。',
         },
       },
       {
@@ -38,7 +40,8 @@ const routes: RouteRecordRaw[] = [
         meta: {
           icon: 'lucide:shopping-bag',
           title: '商品订单',
-          description: '查看商品订单列表，并在详情里查看收货信息、商品明细与发货记录。',
+          description:
+            '查看商品订单列表，并在详情中查看收货信息、商品明细与发货记录。',
         },
       },
       {

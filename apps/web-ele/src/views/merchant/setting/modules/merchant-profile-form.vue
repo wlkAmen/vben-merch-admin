@@ -8,10 +8,7 @@ import { VbenButton } from '@vben/common-ui';
 import { ElMessage } from 'element-plus';
 
 import { useVbenForm } from '#/adapter/form';
-import {
-  getMerchantProfileApi,
-  updateMerchantProfileApi,
-} from '#/api';
+import { getMerchantProfileApi, updateMerchantProfileApi } from '#/api';
 import { useAuthStore } from '#/store';
 import MerchantImageUpload from '#/views/merchant/common/image-upload.vue';
 
@@ -128,7 +125,9 @@ const [Form, formApi] = useVbenForm({
 function normalizeProfile(profile: Record<string, any>) {
   return {
     agencyName: profile.agencyName || '',
-    area: Array.isArray(profile.area) ? profile.area.join('/') : profile.area || '',
+    area: Array.isArray(profile.area)
+      ? profile.area.join('/')
+      : profile.area || '',
     businessLicenseNumber: profile.businessLicenseNumber || '',
     contactName: profile.contactName || '',
     contactPhone: profile.contactPhone || '',
@@ -183,18 +182,39 @@ loadProfile();
 </script>
 
 <template>
-  <div v-loading="loading" class="grid gap-4" @keydown.enter.prevent="handleSubmit">
-    <div class="rounded-xl border p-4">
-      <div class="mb-3 text-sm font-medium">商家 Logo</div>
-      <MerchantImageUpload v-model="logo" />
-      <div class="mt-3 text-xs text-muted-foreground">
-        用于商家资料展示，支持 JPG、PNG、WEBP，大小不超过 2MB。
+  <div
+    v-loading="loading"
+    class="grid gap-5"
+    @keydown.enter.prevent="handleSubmit"
+  >
+    <section class="rounded-2xl border bg-muted/15 p-4">
+      <div class="text-base font-semibold text-foreground">商家资料维护</div>
+      <div class="mt-1 text-sm text-muted-foreground">
+        这里维护会影响平台展示、客服联系、订单履约和商家识别的核心资料。
       </div>
-    </div>
+    </section>
 
-    <Form />
-    <VbenButton class="mt-4" type="submit" @click="handleSubmit">
-      保存商家资料
-    </VbenButton>
+    <section class="grid gap-4 xl:grid-cols-[280px_minmax(0,1fr)]">
+      <div class="rounded-2xl border p-4">
+        <div class="text-sm font-medium text-foreground">商家 Logo</div>
+        <div class="mt-3">
+          <MerchantImageUpload v-model="logo" />
+        </div>
+        <div class="mt-3 text-xs leading-6 text-muted-foreground">
+          用于商家资料展示，支持 JPG、PNG、WEBP，文件大小不超过 2MB。
+        </div>
+      </div>
+
+      <div class="rounded-2xl border p-4">
+        <div class="mb-4 text-sm font-medium text-foreground">资料表单</div>
+        <Form />
+      </div>
+    </section>
+
+    <div class="flex justify-end">
+      <VbenButton type="submit" @click="handleSubmit">
+        保存商家资料
+      </VbenButton>
+    </div>
   </div>
 </template>

@@ -16,6 +16,8 @@ import { useAuthStore } from '#/store';
 
 const { apiURL } = useAppConfig(import.meta.env, import.meta.env.PROD);
 
+let isReAuthenticating = false;
+
 function createRequestClient(baseURL: string, options?: RequestClientOptions) {
   const client = new RequestClient({
     ...options,
@@ -23,18 +25,22 @@ function createRequestClient(baseURL: string, options?: RequestClientOptions) {
   });
 
   async function doReAuthenticate() {
+    if (isReAuthenticating) {
+      return;
+    }
+
+    isReAuthenticating = true;
+
     const accessStore = useAccessStore();
     const authStore = useAuthStore();
 
-    accessStore.setAccessToken(null);
-    ElMessage.error('登录已过期，请重新登录');
-    if (
-      preferences.app.loginExpiredMode === 'modal' &&
-      accessStore.isAccessChecked
-    ) {
-      accessStore.setLoginExpired(true);
-    } else {
+    try {
+      accessStore.setAccessToken(null);
+      accessStore.setLoginExpired(false);
+      ElMessage.error('登录已过期，请重新登录');
       await authStore.logout();
+    } finally {
+      isReAuthenticating = false;
     }
   }
 

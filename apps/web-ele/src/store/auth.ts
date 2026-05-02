@@ -83,9 +83,11 @@ export const useAuthStore = defineStore('auth', () => {
 
   async function logout(redirect: boolean = true) {
     try {
-      await logoutApi();
+      if (accessStore.accessToken) {
+        await logoutApi();
+      }
     } catch {
-      // 忽略退出接口异常，前端仍然清理本地状态
+      // 忽略登出接口异常，前端仍然清理本地状态。
     }
 
     sessionProfile.value = null;

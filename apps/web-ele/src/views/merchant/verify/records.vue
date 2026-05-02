@@ -6,17 +6,10 @@ import { ref } from 'vue';
 
 import { Page, useVbenModal } from '@vben/common-ui';
 
-import {
-  ElMessage,
-  ElMessageBox,
-  ElTag,
-} from 'element-plus';
+import { ElMessage, ElMessageBox, ElTag } from 'element-plus';
 
 import { useVbenVxeGrid } from '#/adapter/vxe-table';
-import {
-  getTicketVerifyListApi,
-  useTicketVerifyApi,
-} from '#/api';
+import { getTicketVerifyListApi, useTicketVerifyApi } from '#/api';
 
 import OrderUserPopover from '../order/modules/order-user-popover.vue';
 import VerifyDetailModal from './modules/verify-detail-modal.vue';
@@ -187,15 +180,11 @@ async function onUseVerify(item: { code: string; id: number; status: string }) {
   }
 
   try {
-    await ElMessageBox.confirm(
-      `确定核销核销码“${item.code}”吗？`,
-      '执行核销',
-      {
-        confirmButtonText: '确定核销',
-        cancelButtonText: '取消',
-        type: 'warning',
-      },
-    );
+    await ElMessageBox.confirm(`确定核销核销码“${item.code}”吗？`, '执行核销', {
+      confirmButtonText: '确定核销',
+      cancelButtonText: '取消',
+      type: 'warning',
+    });
   } catch {
     return;
   }

@@ -7,10 +7,7 @@ import { Page, useVbenModal } from '@vben/common-ui';
 import { ElMessage, ElMessageBox, ElTag } from 'element-plus';
 
 import { useVbenVxeGrid } from '#/adapter/vxe-table';
-import {
-  finishLineOrderApi,
-  getLineOrderListApi,
-} from '#/api';
+import { finishLineOrderApi, getLineOrderListApi } from '#/api';
 
 import { formatOrderDateTime, getOrderStatusTagType } from './helper';
 import LineContractDetailModal from './modules/line-contract-detail-modal.vue';
@@ -134,7 +131,7 @@ const [Grid, gridApi] = useVbenVxeGrid({
           options: [
             { label: '交易关闭', value: '-2' },
             { label: '已取消', value: '-1' },
-            { label: '待付款', value: '0' },
+            { label: '待支付', value: '0' },
             { label: '已支付', value: '1' },
             { label: '已完成', value: '3' },
           ],
@@ -278,11 +275,13 @@ const [Grid, gridApi] = useVbenVxeGrid({
           });
 
           return {
-            items: response.list.map((item): MerchantLineOrderTableRow => ({
-              ...item,
-              createtime_text: formatOrderDateTime(item.createtime),
-              paytime_text: formatOrderDateTime(item.paytime),
-            })),
+            items: response.list.map(
+              (item): MerchantLineOrderTableRow => ({
+                ...item,
+                createtime_text: formatOrderDateTime(item.createtime),
+                paytime_text: formatOrderDateTime(item.paytime),
+              }),
+            ),
             total: response.total,
           };
         },
@@ -305,7 +304,7 @@ const [Grid, gridApi] = useVbenVxeGrid({
 <template>
   <Page
     auto-content-height
-    description="查看当前商家的线路订单，支持按关键词、订单状态和下单时间区间筛选，并通过弹窗查看订单详情。"
+    description="查看当前商家的线路订单，支持按关键词、订单状态和下单时间筛选，并在详情弹窗中完成支付、合同和订单处理。"
     title="线路订单"
   >
     <DetailModal @success="gridApi.query()" />
@@ -315,16 +314,12 @@ const [Grid, gridApi] = useVbenVxeGrid({
     <Grid table-title="线路订单列表">
       <template #toolbar-tools>
         <div class="text-sm text-muted-foreground">
-          支持按状态执行确认支付、完成订单和电子合同操作。
+          支持按状态执行确认支付、完成订单和查看电子合同。
         </div>
       </template>
 
       <template #status="{ row }">
-        <ElTag
-          :type="getOrderStatusTagType(row.status)"
-          effect="light"
-          round
-        >
+        <ElTag :type="getOrderStatusTagType(row.status)" effect="light" round>
           {{ row.status_text || row.status || '-' }}
         </ElTag>
       </template>

@@ -117,7 +117,7 @@ async function handleUseVerify() {
 <template>
   <Page
     auto-content-height
-    description="支持输入或扫描门票核销码，核验当前商家的门票订单并执行核销。"
+    description="支持输入或扫描门票核销码，快速核验当前商家的门票订单并完成核销。"
     title="核销查询"
   >
     <template #extra>
@@ -128,10 +128,12 @@ async function handleUseVerify() {
 
     <div class="grid gap-4">
       <div class="verify-query-hero rounded-3xl border px-6 py-6">
-        <div class="grid gap-6 xl:grid-cols-[minmax(0,1fr)_560px] xl:items-stretch">
+        <div
+          class="grid gap-6 xl:grid-cols-[minmax(0,1fr)_560px] xl:items-stretch"
+        >
           <div class="space-y-4">
             <div class="space-y-3">
-              <div class="text-sm font-semibold text-primary">核销台</div>
+              <div class="text-sm font-semibold text-primary">核销中心</div>
               <div class="text-2xl font-semibold text-foreground">
                 输入或扫描核销码，快速完成核销
               </div>
@@ -184,7 +186,9 @@ async function handleUseVerify() {
                 </div>
               </div>
 
-              <div class="rounded-2xl border bg-muted/20 px-4 py-3 text-xs text-muted-foreground">
+              <div
+                class="rounded-2xl border bg-muted/20 px-4 py-3 text-xs text-muted-foreground"
+              >
                 建议将光标保持在输入框内，连续扫码后按回车，可快速完成多笔核销。
               </div>
             </div>
@@ -221,23 +225,30 @@ async function handleUseVerify() {
                 </div>
                 <div class="verify-summary-card rounded-2xl px-4 py-3">
                   <div class="text-xs text-muted-foreground">联系人</div>
-                  <div class="mt-1 font-medium">{{ orderInfo?.realname || '-' }}</div>
+                  <div class="mt-1 font-medium">
+                    {{ orderInfo?.realname || '-' }}
+                  </div>
                 </div>
                 <div class="verify-summary-card rounded-2xl px-4 py-3">
                   <div class="text-xs text-muted-foreground">出游日期</div>
-                  <div class="mt-1 font-medium">{{ orderInfo?.date || '-' }}</div>
+                  <div class="mt-1 font-medium">
+                    {{ orderInfo?.date || '-' }}
+                  </div>
                 </div>
                 <div class="verify-summary-card rounded-2xl px-4 py-3">
                   <div class="text-xs text-muted-foreground">数量 / 金额</div>
                   <div class="mt-1 font-medium">
-                    {{ orderInfo?.number ?? '-' }} / {{ orderInfo?.total_fee || '-' }}
+                    {{ orderInfo?.number ?? '-' }} /
+                    {{ orderInfo?.total_fee || '-' }}
                   </div>
                 </div>
               </div>
             </div>
 
             <div class="flex flex-wrap gap-2">
-              <ElButton size="large" @click="router.push('/verify/records')">查看记录</ElButton>
+              <ElButton size="large" @click="router.push('/verify/records')">
+                查看记录
+              </ElButton>
               <ElButton
                 v-if="detail.status === '0'"
                 :loading="usingVerify"
@@ -255,7 +266,10 @@ async function handleUseVerify() {
       </div>
 
       <AnalysisChartCard v-else-if="hasSearched && !loading" title="查询结果">
-        <ElEmpty description="没有查询到可核销的记录，请检查核销码是否正确。" :image-size="90" />
+        <ElEmpty
+          description="没有查询到可核销的记录，请检查核销码是否正确。"
+          :image-size="90"
+        />
       </AnalysisChartCard>
 
       <AnalysisChartCard v-else-if="!loading" title="使用说明">
@@ -287,16 +301,20 @@ async function handleUseVerify() {
 <style scoped>
 .verify-query-hero {
   background:
-    radial-gradient(circle at top right, rgb(64 158 255 / 10%), transparent 28%),
+    radial-gradient(
+      circle at top right,
+      rgb(64 158 255 / 10%),
+      transparent 28%
+    ),
     linear-gradient(135deg, hsl(var(--card)), hsl(var(--card)));
 }
 
 .verify-query-panel {
-  border: 1px solid hsl(var(--border));
-  background: hsl(var(--card));
-  box-shadow: 0 12px 28px rgb(15 23 42 / 6%);
   min-width: min(100%, 520px);
   min-height: 248px;
+  background: hsl(var(--card));
+  border: 1px solid hsl(var(--border));
+  box-shadow: 0 12px 28px rgb(15 23 42 / 6%);
 }
 
 .verify-query-input :deep(.el-input__wrapper) {
@@ -312,12 +330,12 @@ async function handleUseVerify() {
 }
 
 .verify-summary-card {
-  background: hsl(var(--muted) / 0.5);
+  background: hsl(var(--muted) / 50%);
   border: 1px solid hsl(var(--border));
 }
 
 .verify-guide-card {
-  background: hsl(var(--muted) / 0.4);
+  background: hsl(var(--muted) / 40%);
   border: 1px solid hsl(var(--border));
 }
 </style>

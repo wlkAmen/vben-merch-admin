@@ -1,6 +1,9 @@
 <script lang="ts" setup>
 import type { VxeTableGridOptions } from '#/adapter/vxe-table';
-import type { MerchantTicketOrderItem, MerchantTicketOrderVerifyInfo } from '#/api';
+import type {
+  MerchantTicketOrderItem,
+  MerchantTicketOrderVerifyInfo,
+} from '#/api';
 
 import { useRouter } from 'vue-router';
 
@@ -9,12 +12,13 @@ import { Page, useVbenModal } from '@vben/common-ui';
 import { ElButton, ElMessage, ElMessageBox, ElTag } from 'element-plus';
 
 import { useVbenVxeGrid } from '#/adapter/vxe-table';
-import {
-  finishTicketOrderApi,
-  getTicketOrderListApi,
-} from '#/api';
+import { finishTicketOrderApi, getTicketOrderListApi } from '#/api';
 
-import { formatOrderDateTime, getOrderStatusTagType, getVerifyStatusTagType } from './helper';
+import {
+  formatOrderDateTime,
+  getOrderStatusTagType,
+  getVerifyStatusTagType,
+} from './helper';
 import OrderPayModal from './modules/order-pay-modal.vue';
 import OrderUserPopover from './modules/order-user-popover.vue';
 import TicketOrderDetailModal from './modules/ticket-order-detail-modal.vue';
@@ -140,7 +144,7 @@ const [Grid, gridApi] = useVbenVxeGrid({
           options: [
             { label: '交易关闭', value: '-2' },
             { label: '已取消', value: '-1' },
-            { label: '待付款', value: '0' },
+            { label: '待支付', value: '0' },
             { label: '已支付', value: '1' },
             { label: '已完成', value: '3' },
           ],
@@ -271,7 +275,7 @@ const [Grid, gridApi] = useVbenVxeGrid({
     height: 'auto',
     keepSource: true,
     cellConfig: {
-      height: 75
+      height: 75,
     },
     proxyConfig: {
       ajax: {
@@ -323,7 +327,7 @@ const [Grid, gridApi] = useVbenVxeGrid({
 <template>
   <Page
     auto-content-height
-    description="查看当前商家的门票订单，支持按关键词、订单状态和下单时间区间筛选，并在详情中查看核销信息。"
+    description="查看当前商家的门票订单，支持按关键词、订单状态和下单时间筛选，并在详情中核对核销信息。"
     title="门票订单"
   >
     <template #extra>
@@ -336,7 +340,7 @@ const [Grid, gridApi] = useVbenVxeGrid({
     <Grid table-title="门票订单列表">
       <template #toolbar-tools>
         <div class="text-sm text-muted-foreground">
-          支持确认支付和完成订单；核销操作仍在核销中心完成。
+          支持确认支付和完成订单；核销操作统一在核销中心完成。
         </div>
       </template>
 

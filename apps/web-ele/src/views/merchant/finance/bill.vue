@@ -10,8 +10,8 @@ import { computed, onMounted, reactive, ref, watch } from 'vue';
 
 import { Page, useVbenModal } from '@vben/common-ui';
 import { IconifyIcon } from '@vben/icons';
-import dayjs from 'dayjs';
 
+import dayjs from 'dayjs';
 import {
   ElButton,
   ElDatePicker,
@@ -90,7 +90,10 @@ const dateRangeShortcuts = [
     text: '近7天',
     value: () => {
       const end = dayjs();
-      return [end.subtract(6, 'day').startOf('day').toDate(), end.endOf('day').toDate()];
+      return [
+        end.subtract(6, 'day').startOf('day').toDate(),
+        end.endOf('day').toDate(),
+      ];
     },
   },
   {
@@ -133,7 +136,10 @@ const summaryCardIcons = [
   },
   { icon: 'lucide:badge-check', iconClass: 'text-cyan-500 bg-cyan-500/10' },
   { icon: 'lucide:receipt-text', iconClass: 'text-amber-500 bg-amber-500/10' },
-  { icon: 'lucide:file-minus-2', iconClass: 'text-violet-500 bg-violet-500/10' },
+  {
+    icon: 'lucide:file-minus-2',
+    iconClass: 'text-violet-500 bg-violet-500/10',
+  },
 ];
 
 const summaryCards = computed(() => [
@@ -175,10 +181,10 @@ const activeTabTitle = computed(() => {
 
 const activeTabHelperText = computed(() => {
   if (activeTab.value === 'flow') {
-    return '当前导出的是账单流水，会带上当前筛选条件、业务类型和日期范围。';
+    return '当前查看账单流水，会带上当前日期范围、业务类型和明细筛选条件。';
   }
 
-  return '当前导出的是周期对账汇总，会带上当前日期范围、业务类型和周期类型。';
+  return '当前查看周期对账汇总，会带上当前日期范围、业务类型和周期类型。';
 });
 
 const exportButtonText = computed(() => {
@@ -238,18 +244,20 @@ function getOrderStatusOptions(bizType?: string) {
 }
 
 function normalizeFlowRows(items: MerchantBillFlowItem[]) {
-  return items.map((item, index): BillFlowRow => ({
-    ...item,
-    __row_key: [
-      item.biz_type || 'unknown',
-      item.flow_type || 'unknown',
-      item.id,
-      item.order_id || 0,
-      item.refund_id || 0,
-      item.occur_time || 0,
-      index,
-    ].join('_'),
-  }));
+  return items.map(
+    (item, index): BillFlowRow => ({
+      ...item,
+      __row_key: [
+        item.biz_type || 'unknown',
+        item.flow_type || 'unknown',
+        item.id,
+        item.order_id || 0,
+        item.refund_id || 0,
+        item.occur_time || 0,
+        index,
+      ].join('_'),
+    }),
+  );
 }
 
 async function loadMeta() {
@@ -491,13 +499,15 @@ onMounted(async () => {
                 <div class="finance-top-filter__title">查询范围</div>
               </div>
               <div class="finance-top-filter__desc">
-                先确定对账时间范围和业务类型，再查看当前区域的数据汇总与明细。
+                先确认对账时间范围和业务类型，再查看当前区域的汇总数据与明细。
               </div>
             </div>
 
             <div class="finance-top-filter__status-wrap">
               <span class="finance-top-filter__status-label">当前区域</span>
-              <div class="finance-top-filter__status finance-top-filter__status--inline">
+              <div
+                class="finance-top-filter__status finance-top-filter__status--inline"
+              >
                 {{ activeTabTitle }}
               </div>
             </div>
@@ -536,7 +546,9 @@ onMounted(async () => {
             </div>
 
             <div class="finance-top-filter__actions">
-              <ElButton type="primary" @click="applyTopFilters">查询数据</ElButton>
+              <ElButton type="primary" @click="applyTopFilters">
+                查询数据
+              </ElButton>
             </div>
           </div>
 
@@ -596,7 +608,12 @@ onMounted(async () => {
 
                   <div class="finance-flow-field">
                     <div class="finance-flow-label">流水类型</div>
-                    <ElSelect v-model="flowFilters.flow_type" class="w-full" clearable placeholder="请选择">
+                    <ElSelect
+                      v-model="flowFilters.flow_type"
+                      class="w-full"
+                      clearable
+                      placeholder="请选择"
+                    >
                       <ElOption
                         v-for="item in metaRef?.flow_type_options || []"
                         :key="item.value"
@@ -608,7 +625,12 @@ onMounted(async () => {
 
                   <div class="finance-flow-field">
                     <div class="finance-flow-label">支付方式</div>
-                    <ElSelect v-model="flowFilters.pay_type" class="w-full" clearable placeholder="请选择">
+                    <ElSelect
+                      v-model="flowFilters.pay_type"
+                      class="w-full"
+                      clearable
+                      placeholder="请选择"
+                    >
                       <ElOption
                         v-for="item in metaRef?.pay_type_options || []"
                         :key="item.value"
@@ -620,7 +642,12 @@ onMounted(async () => {
 
                   <div class="finance-flow-field">
                     <div class="finance-flow-label">平台来源</div>
-                    <ElSelect v-model="flowFilters.platform" class="w-full" clearable placeholder="请选择">
+                    <ElSelect
+                      v-model="flowFilters.platform"
+                      class="w-full"
+                      clearable
+                      placeholder="请选择"
+                    >
                       <ElOption
                         v-for="item in metaRef?.platform_options || []"
                         :key="item.value"
@@ -632,7 +659,12 @@ onMounted(async () => {
 
                   <div class="finance-flow-field">
                     <div class="finance-flow-label">订单状态</div>
-                    <ElSelect v-model="flowFilters.order_status" class="w-full" clearable placeholder="请选择">
+                    <ElSelect
+                      v-model="flowFilters.order_status"
+                      class="w-full"
+                      clearable
+                      placeholder="请选择"
+                    >
                       <ElOption
                         v-for="item in getOrderStatusOptions(filters.biz_type)"
                         :key="`${item.biz_type}-${item.value}`"
@@ -644,7 +676,12 @@ onMounted(async () => {
 
                   <div class="finance-flow-field">
                     <div class="finance-flow-label">退款状态</div>
-                    <ElSelect v-model="flowFilters.refund_status" class="w-full" clearable placeholder="请选择">
+                    <ElSelect
+                      v-model="flowFilters.refund_status"
+                      class="w-full"
+                      clearable
+                      placeholder="请选择"
+                    >
                       <ElOption
                         v-for="item in metaRef?.refund_status_options || []"
                         :key="item.value"
@@ -669,15 +706,19 @@ onMounted(async () => {
                   >
                     重置
                   </ElButton>
-                  <ElButton type="primary" @click="searchFlowList">搜索</ElButton>
+                  <ElButton type="primary" @click="searchFlowList">
+                    查询
+                  </ElButton>
                 </div>
               </div>
 
               <div class="finance-flow-table-panel rounded-2xl border p-4">
-                <div class="mb-3 flex flex-wrap items-center justify-between gap-3">
+                <div
+                  class="mb-3 flex flex-wrap items-center justify-between gap-3"
+                >
                   <div class="text-base font-medium">账单流水</div>
                   <div class="text-sm text-muted-foreground">
-                    收入与退款会统一折算为账单流水，可直接点详情查看原订单或退款单，并支持导出当前筛选结果。
+                    收入与退款统一折算为账单流水，可直接点详情查看原订单或退款单，并支持导出当前筛选结果。
                   </div>
                 </div>
 
@@ -689,17 +730,29 @@ onMounted(async () => {
                     row-key="__row_key"
                     style="width: 100%"
                   >
-                    <ElTableColumn label="业务时间" min-width="170" prop="occur_time_text" />
+                    <ElTableColumn
+                      label="业务时间"
+                      min-width="170"
+                      prop="occur_time_text"
+                    />
                     <ElTableColumn label="流水类型" min-width="100">
                       <template #default="{ row }">
-                        <ElTag :type="getFlowTypeTagType(row.flow_type)" effect="light" round>
+                        <ElTag
+                          :type="getFlowTypeTagType(row.flow_type)"
+                          effect="light"
+                          round
+                        >
                           {{ row.flow_type_text || row.flow_type || '-' }}
                         </ElTag>
                       </template>
                     </ElTableColumn>
                     <ElTableColumn label="业务类型" min-width="100">
                       <template #default="{ row }">
-                        <ElTag :type="getBizTypeTagType(row.biz_type)" effect="plain" round>
+                        <ElTag
+                          :type="getBizTypeTagType(row.biz_type)"
+                          effect="plain"
+                          round
+                        >
                           {{ row.biz_type_text || row.biz_type || '-' }}
                         </ElTag>
                       </template>
@@ -709,8 +762,16 @@ onMounted(async () => {
                         <OrderUserPopover :user-info="row.user_info" />
                       </template>
                     </ElTableColumn>
-                    <ElTableColumn label="联系人/收货人" min-width="130" prop="contact_name" />
-                    <ElTableColumn label="联系手机号" min-width="140" prop="contact_mobile" />
+                    <ElTableColumn
+                      label="联系人/收货人"
+                      min-width="130"
+                      prop="contact_name"
+                    />
+                    <ElTableColumn
+                      label="联系电话"
+                      min-width="140"
+                      prop="contact_mobile"
+                    />
                     <ElTableColumn label="资源信息" min-width="220">
                       <template #default="{ row }">
                         <div class="min-w-0 space-y-1 text-left">
@@ -723,17 +784,50 @@ onMounted(async () => {
                         </div>
                       </template>
                     </ElTableColumn>
-                    <ElTableColumn label="支付方式" min-width="110" prop="pay_type_text" />
-                    <ElTableColumn label="平台来源" min-width="120" prop="platform_text" />
-                    <ElTableColumn label="订单号" min-width="170" prop="order_sn" />
-                    <ElTableColumn label="退款单号" min-width="170" prop="refund_sn" />
-                    <ElTableColumn label="收入金额" min-width="100" prop="income_amount" />
-                    <ElTableColumn label="退款金额" min-width="100" prop="refund_amount" />
-                    <ElTableColumn label="净额" min-width="100" prop="net_amount" />
+                    <ElTableColumn
+                      label="支付方式"
+                      min-width="110"
+                      prop="pay_type_text"
+                    />
+                    <ElTableColumn
+                      label="平台来源"
+                      min-width="120"
+                      prop="platform_text"
+                    />
+                    <ElTableColumn
+                      label="订单号"
+                      min-width="170"
+                      prop="order_sn"
+                    />
+                    <ElTableColumn
+                      label="退款单号"
+                      min-width="170"
+                      prop="refund_sn"
+                    />
+                    <ElTableColumn
+                      label="收入金额"
+                      min-width="100"
+                      prop="income_amount"
+                    />
+                    <ElTableColumn
+                      label="退款金额"
+                      min-width="100"
+                      prop="refund_amount"
+                    />
+                    <ElTableColumn
+                      label="净额"
+                      min-width="100"
+                      prop="net_amount"
+                    />
                     <ElTableColumn label="订单状态" min-width="110">
                       <template #default="{ row }">
                         <ElTag
-                          :type="getProcessStatusTagType(row.order_status, row.order_status_text)"
+                          :type="
+                            getProcessStatusTagType(
+                              row.order_status,
+                              row.order_status_text,
+                            )
+                          "
                           effect="light"
                           round
                         >
@@ -744,18 +838,29 @@ onMounted(async () => {
                     <ElTableColumn label="退款状态" min-width="110">
                       <template #default="{ row }">
                         <ElTag
-                          :type="getProcessStatusTagType(row.refund_status, row.refund_status_text)"
+                          :type="
+                            getProcessStatusTagType(
+                              row.refund_status,
+                              row.refund_status_text,
+                            )
+                          "
                           effect="light"
                           round
                         >
-                          {{ row.refund_status_text || row.refund_status || '-' }}
+                          {{
+                            row.refund_status_text || row.refund_status || '-'
+                          }}
                         </ElTag>
                       </template>
                     </ElTableColumn>
                     <ElTableColumn label="备注" min-width="180" prop="remark" />
                     <ElTableColumn label="操作" min-width="100" fixed="right">
                       <template #default="{ row }">
-                        <ElButton link type="primary" @click="openFlowDetail(row)">
+                        <ElButton
+                          link
+                          type="primary"
+                          @click="openFlowDetail(row)"
+                        >
                           详情
                         </ElButton>
                       </template>
@@ -769,7 +874,9 @@ onMounted(async () => {
                   />
                 </div>
 
-                <div class="mt-4 flex flex-wrap items-center justify-between gap-3">
+                <div
+                  class="mt-4 flex flex-wrap items-center justify-between gap-3"
+                >
                   <div class="text-sm text-muted-foreground">
                     共 {{ flowTotal }} 条记录
                   </div>
@@ -803,7 +910,9 @@ onMounted(async () => {
                 />
               </ElSelect>
               <div class="text-sm text-muted-foreground">
-                周期对账会按当前日期范围和业务类型聚合。{{ statementHelperText }}
+                周期对账会按当前日期范围和业务类型聚合。{{
+                  statementHelperText
+                }}
               </div>
             </div>
 
@@ -815,18 +924,58 @@ onMounted(async () => {
                 class="finance-statement-table"
               >
                 <ElTableColumn label="周期" min-width="140" prop="cycle_text" />
-                <ElTableColumn label="线路成交" min-width="110" prop="line_paid_amount" />
-                <ElTableColumn label="门票成交" min-width="110" prop="ticket_paid_amount" />
-                <ElTableColumn label="商品成交" min-width="110" prop="goods_paid_amount" />
-                <ElTableColumn label="总成交" min-width="110" prop="paid_amount" />
-                <ElTableColumn label="总退款" min-width="110" prop="refund_amount" />
-                <ElTableColumn label="净收入" min-width="110" prop="net_amount" />
-                <ElTableColumn label="完单金额" min-width="110" prop="finished_amount" />
-                <ElTableColumn label="订单数" min-width="90" prop="order_count" />
-                <ElTableColumn label="退款单数" min-width="90" prop="refund_count" />
+                <ElTableColumn
+                  label="线路成交"
+                  min-width="110"
+                  prop="line_paid_amount"
+                />
+                <ElTableColumn
+                  label="门票成交"
+                  min-width="110"
+                  prop="ticket_paid_amount"
+                />
+                <ElTableColumn
+                  label="商品成交"
+                  min-width="110"
+                  prop="goods_paid_amount"
+                />
+                <ElTableColumn
+                  label="总成交"
+                  min-width="110"
+                  prop="paid_amount"
+                />
+                <ElTableColumn
+                  label="总退款"
+                  min-width="110"
+                  prop="refund_amount"
+                />
+                <ElTableColumn
+                  label="净收入"
+                  min-width="110"
+                  prop="net_amount"
+                />
+                <ElTableColumn
+                  label="完单金额"
+                  min-width="110"
+                  prop="finished_amount"
+                />
+                <ElTableColumn
+                  label="订单数"
+                  min-width="90"
+                  prop="order_count"
+                />
+                <ElTableColumn
+                  label="退款单数"
+                  min-width="90"
+                  prop="refund_count"
+                />
                 <ElTableColumn label="操作" min-width="110" fixed="right">
                   <template #default="{ row }">
-                    <ElButton link type="primary" @click="openStatementDetail(row)">
+                    <ElButton
+                      link
+                      type="primary"
+                      @click="openStatementDetail(row)"
+                    >
                       查看明细
                     </ElButton>
                   </template>
@@ -855,11 +1004,12 @@ onMounted(async () => {
   min-width: 0;
   overflow: hidden;
 }
+
 .finance-top-filter__header {
   display: flex;
+  gap: 16px;
   align-items: flex-start;
   justify-content: space-between;
-  gap: 16px;
   min-width: 0;
 }
 
@@ -873,42 +1023,42 @@ onMounted(async () => {
 }
 
 .finance-top-filter__title {
-  color: hsl(var(--foreground));
   font-size: 18px;
   font-weight: 600;
+  color: hsl(var(--foreground));
 }
 
 .finance-top-filter__status {
-  border: 1px solid hsl(var(--border));
-  border-radius: 9999px;
-  background: hsl(var(--muted) / 0.25);
-  color: hsl(var(--foreground));
+  padding: 8px 12px;
   font-size: 13px;
   font-weight: 500;
   line-height: 1;
-  padding: 8px 12px;
+  color: hsl(var(--foreground));
+  background: hsl(var(--muted) / 25%);
+  border: 1px solid hsl(var(--border));
+  border-radius: 9999px;
 }
 
 .finance-top-filter__desc {
+  max-width: 720px;
   margin-top: 8px;
-  color: hsl(var(--muted-foreground));
   font-size: 14px;
   line-height: 1.8;
-  max-width: 720px;
+  color: hsl(var(--muted-foreground));
 }
 
 .finance-top-filter__body {
   display: grid;
+  grid-template-columns: minmax(320px, 420px) minmax(220px, 280px) auto;
   gap: 16px;
   align-items: end;
-  grid-template-columns: minmax(320px, 420px) minmax(220px, 280px) auto;
   justify-content: start;
   margin-top: 4px;
 }
 
 .finance-top-filter__field {
-  max-width: 100%;
   min-width: 0;
+  max-width: 100%;
 }
 
 .finance-top-filter__actions {
@@ -919,36 +1069,36 @@ onMounted(async () => {
 
 .finance-top-filter__label {
   margin-bottom: 8px;
-  color: hsl(var(--muted-foreground));
   font-size: 14px;
+  color: hsl(var(--muted-foreground));
 }
 
 .finance-top-filter__status-wrap {
   display: flex;
-  align-items: center;
-  gap: 10px;
   flex-shrink: 0;
+  gap: 10px;
+  align-items: center;
   padding-top: 2px;
 }
 
 .finance-top-filter__status--inline {
-  align-items: center;
   display: inline-flex;
+  align-items: center;
   min-height: 32px;
   padding: 6px 12px;
 }
 
 .finance-top-filter__status-label {
-  color: hsl(var(--muted-foreground));
   font-size: 13px;
   line-height: 1;
+  color: hsl(var(--muted-foreground));
 }
 
 .finance-top-filter__helper {
-  color: hsl(var(--muted-foreground) / 0.92);
+  padding-top: 6px;
   font-size: 12px;
   line-height: 1.7;
-  padding-top: 6px;
+  color: hsl(var(--muted-foreground) / 92%);
 }
 
 .finance-flow-section {
@@ -963,40 +1113,40 @@ onMounted(async () => {
 
 .finance-flow-grid {
   display: grid;
-  gap: 16px;
   grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr));
-  max-width: 100%;
+  gap: 16px;
   min-width: 0;
+  max-width: 100%;
 }
 
 .finance-flow-field {
-  max-width: 100%;
   min-width: 0;
+  max-width: 100%;
 }
 
 .finance-flow-field :deep(.el-input),
 .finance-flow-field :deep(.el-select) {
-  max-width: 100%;
-  min-width: 0;
   width: 100%;
+  min-width: 0;
+  max-width: 100%;
 }
 
 .finance-flow-label {
   margin-bottom: 8px;
-  color: hsl(var(--muted-foreground));
   font-size: 14px;
+  color: hsl(var(--muted-foreground));
 }
 
 .finance-flow-table-wrap {
-  max-width: 100%;
   min-width: 0;
+  max-width: 100%;
   overflow: visible;
 }
 
 .finance-flow-table-wrap :deep(.el-table) {
-  max-width: 100%;
-  min-width: 0;
   width: 100% !important;
+  min-width: 0;
+  max-width: 100%;
   overflow: visible;
 }
 
@@ -1004,8 +1154,8 @@ onMounted(async () => {
 .finance-flow-table-wrap :deep(.el-table__body-wrapper),
 .finance-flow-table-wrap :deep(.el-scrollbar),
 .finance-flow-table-wrap :deep(.el-scrollbar__wrap) {
-  max-width: 100%;
   min-width: 0;
+  max-width: 100%;
 }
 
 .finance-flow-table-wrap :deep(.el-table__fixed-right),
@@ -1018,10 +1168,10 @@ onMounted(async () => {
 }
 
 .finance-table-wrap {
-  max-width: 100%;
-  min-width: 0;
-  overflow: hidden;
   width: 100%;
+  min-width: 0;
+  max-width: 100%;
+  overflow: hidden;
 }
 
 .finance-statement-table {
@@ -1058,26 +1208,26 @@ onMounted(async () => {
 
 .finance-summary-card__content {
   display: flex;
+  gap: 16px;
   align-items: flex-start;
   justify-content: space-between;
-  gap: 16px;
 }
 
 .finance-summary-card__icon {
   display: inline-flex;
+  flex-shrink: 0;
   align-items: center;
   justify-content: center;
-  flex-shrink: 0;
   width: 44px;
   height: 44px;
-  border-radius: 14px;
   font-size: 20px;
+  border-radius: 14px;
 }
 
 @media (max-width: 1024px) {
   .finance-top-filter__header {
-    align-items: flex-start;
     flex-direction: column;
+    align-items: flex-start;
   }
 
   .finance-top-filter__body {

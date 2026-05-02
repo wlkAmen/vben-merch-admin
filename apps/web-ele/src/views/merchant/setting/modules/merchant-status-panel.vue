@@ -37,14 +37,25 @@ const items = computed(() => [
 </script>
 
 <template>
-  <div class="grid gap-4 md:grid-cols-2">
-    <div
-      v-for="item in items"
-      :key="item.label"
-      class="rounded-xl border p-4"
-    >
-      <p class="text-muted-foreground mb-2 text-sm">{{ item.label }}</p>
-      <strong class="text-base font-medium">{{ item.value }}</strong>
+  <div class="grid gap-5">
+    <section class="rounded-2xl border bg-muted/15 p-4">
+      <div class="text-base font-semibold text-foreground">商家状态概览</div>
+      <div class="mt-1 text-sm text-muted-foreground">
+        这里主要查看商家当前启用状态、类型以及后台账号关联情况，方便快速确认是否影响日常经营。
+      </div>
+    </section>
+
+    <div class="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+      <div
+        v-for="item in items"
+        :key="item.label"
+        class="rounded-2xl border bg-card p-4"
+      >
+        <p class="mb-2 text-sm text-muted-foreground">{{ item.label }}</p>
+        <strong class="text-base font-medium text-foreground">{{
+          item.value
+        }}</strong>
+      </div>
     </div>
   </div>
 </template>

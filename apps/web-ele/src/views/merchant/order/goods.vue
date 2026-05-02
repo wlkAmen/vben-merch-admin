@@ -7,10 +7,7 @@ import { Page, useVbenModal } from '@vben/common-ui';
 import { ElMessage, ElMessageBox, ElTag } from 'element-plus';
 
 import { useVbenVxeGrid } from '#/adapter/vxe-table';
-import {
-  finishGoodsOrderApi,
-  getGoodsOrderListApi,
-} from '#/api';
+import { finishGoodsOrderApi, getGoodsOrderListApi } from '#/api';
 
 import { formatOrderDateTime, getOrderStatusTagType } from './helper';
 import GoodsOrderDetailModal from './modules/goods-order-detail-modal.vue';
@@ -119,7 +116,7 @@ const [Grid, gridApi] = useVbenVxeGrid({
           options: [
             { label: '交易关闭', value: '-2' },
             { label: '已取消', value: '-1' },
-            { label: '待付款', value: '0' },
+            { label: '待支付', value: '0' },
             { label: '已支付', value: '1' },
             { label: '已完成', value: '3' },
           ],
@@ -215,7 +212,8 @@ const [Grid, gridApi] = useVbenVxeGrid({
             },
             {
               code: 'finish',
-              show: (row: MerchantGoodsOrderTableRow) => ['1', '2'].includes(row.status),
+              show: (row: MerchantGoodsOrderTableRow) =>
+                ['1', '2'].includes(row.status),
               text: '完成订单',
             },
             {
@@ -249,13 +247,15 @@ const [Grid, gridApi] = useVbenVxeGrid({
           });
 
           return {
-            items: response.list.map((item): MerchantGoodsOrderTableRow => ({
-              ...item,
-              createtime_text: formatOrderDateTime(item.createtime),
-              paytime_text: formatOrderDateTime(item.paytime),
-              receiver_display: getReceiverName(item),
-              type_display: getOrderTypeText(item),
-            })),
+            items: response.list.map(
+              (item): MerchantGoodsOrderTableRow => ({
+                ...item,
+                createtime_text: formatOrderDateTime(item.createtime),
+                paytime_text: formatOrderDateTime(item.paytime),
+                receiver_display: getReceiverName(item),
+                type_display: getOrderTypeText(item),
+              }),
+            ),
             total: response.total,
           };
         },
@@ -278,7 +278,7 @@ const [Grid, gridApi] = useVbenVxeGrid({
 <template>
   <Page
     auto-content-height
-    description="查看当前商家的商品订单，支持按订单状态与下单时间筛选，并在详情里查看收货信息、商品明细和发货记录。"
+    description="查看当前商家的商品订单，支持按订单状态与下单时间筛选，并在详情中核对收货信息、商品明细和发货记录。"
     title="商品订单"
   >
     <DetailModal />
@@ -287,7 +287,7 @@ const [Grid, gridApi] = useVbenVxeGrid({
     <Grid table-title="商品订单列表">
       <template #toolbar-tools>
         <div class="text-sm text-muted-foreground">
-          支持物流发货和完成订单，快递公司来自最新元数据接口。
+          支持物流发货和完成订单，发货信息直接来自最新物流填写结果。
         </div>
       </template>
 
