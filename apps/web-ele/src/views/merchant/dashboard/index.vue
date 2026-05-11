@@ -42,12 +42,12 @@ const summary = ref<DashboardSummary>({
 
 function formatDateTime(date = new Date()) {
   return new Intl.DateTimeFormat('zh-CN', {
-    hour12: false,
-    year: 'numeric',
-    month: '2-digit',
     day: '2-digit',
     hour: '2-digit',
+    hour12: false,
     minute: '2-digit',
+    month: '2-digit',
+    year: 'numeric',
   }).format(date);
 }
 
@@ -81,25 +81,25 @@ const pendingTaskCount = computed(() => {
 
 const overviewCards = computed(() => [
   {
-    description: '包含线路、门票、商品的当日成交结果',
+    description: '包含线路、门票、商品在内的当日成交结果。',
     icon: 'lucide:wallet',
     label: '今日成交额',
     value: `${formatAmount(summary.value.today_turnover)} 元`,
   },
   {
-    description: '待支付订单与待核销订单合计',
+    description: '待支付订单与待核销订单的合计数量。',
     icon: 'lucide:alarm-clock',
     label: '待跟进事项',
     value: `${pendingTaskCount.value} 项`,
   },
   {
-    description: '今日进入业务流转的订单数量',
+    description: '今日进入流转中的订单数量。',
     icon: 'lucide:receipt-text',
     label: '今日订单',
     value: `${summary.value.today_order_count} 单`,
   },
   {
-    description: '当前在售线路、门票、商品总量',
+    description: '当前在售线路、门票、商品总量。',
     icon: 'lucide:package-search',
     label: '产品总量',
     value: `${totalProductCount.value} 个`,
@@ -109,59 +109,59 @@ const overviewCards = computed(() => [
 const quickActions = computed<NavItem[]>(() => [
   {
     color: 'bg-blue-500/10 text-blue-600',
-    description: '查看经营指标与趋势',
+    description: '查看经营指标与走势分析',
     icon: 'lucide:chart-column-big',
     title: '分析页',
     url: '/analytics',
   },
   {
     color: 'bg-teal-500/10 text-teal-600',
-    description: '维护线路产品',
+    description: '维护线路产品与套餐信息',
     icon: 'lucide:route',
     title: '线路列表',
     url: '/line/list',
   },
   {
     color: 'bg-amber-500/10 text-amber-600',
-    description: '管理票种与景区门票',
+    description: '管理景区门票与票种库存',
     icon: 'lucide:ticket',
     title: '门票列表',
     url: '/ticket/list',
   },
   {
     color: 'bg-violet-500/10 text-violet-600',
-    description: '维护零售商品',
+    description: '维护零售商品与发货流程',
     icon: 'lucide:shopping-bag',
     title: '商品列表',
     url: '/goods/list',
   },
   {
     color: 'bg-rose-500/10 text-rose-600',
-    description: '进入订单中心处理业务',
+    description: '进入订单中心处理日常履约',
     icon: 'lucide:scroll-text',
     title: '订单中心',
     url: '/order/line',
   },
   {
     color: 'bg-emerald-500/10 text-emerald-600',
-    description: '核销与履约处理',
-    icon: 'lucide:scan-line',
-    title: '核销查询',
-    url: '/verify/query',
+    description: '查看待结算明细、申请和结算单',
+    icon: 'lucide:hand-coins',
+    title: '结算中心',
+    url: '/finance/settlement',
   },
 ]);
 
 const pendingItems = computed(() => [
   {
     count: summary.value.pending_pay_count,
-    description: '建议优先关注支付转化与临近超时订单。',
+    description: '建议优先关注临近超时的待支付订单。',
     icon: 'lucide:wallet-cards',
     title: '待支付订单',
     url: '/order/line',
   },
   {
     count: summary.value.pending_verify_count,
-    description: '需要提前安排客服与现场接待。',
+    description: '适合提前安排客服与现场接待。',
     icon: 'lucide:badge-check',
     title: '待核销订单',
     url: '/verify/query',

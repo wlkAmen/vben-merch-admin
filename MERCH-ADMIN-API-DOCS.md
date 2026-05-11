@@ -141,20 +141,24 @@ HTTP_TOKEN: xxxxx
 
 ## 模块总览
 
-| 模块 | 前缀 | 说明 |
-|---|---|---|
-| 认证 | `/auth` | 登录、退出、当前资料、改密 |
-| 工作台 | `/dashboard` | 汇总卡片数据 |
-| 元数据 | `/meta` | 表单下拉、分类、类型等 |
-| 线路 | `/line` | 线路主表 |
-| 线路套餐 | `/line/suit` | 线路套餐及价格 |
-| 商品 | `/goods` | 商品主表 |
-| 商品规格 | `/goods/sku` | 商品多规格保存与读取 |
-| 景点 | `/ticket` | 商家可经营景点只读视图 |
-| 门票套餐 | `/ticket/suit` | 当前商家门票套餐 |
-| 订单 | `/order/*` | 三类订单列表与详情 |
-| 设置 | `/setting` | 商家资料、账号资料 |
-| 上传 | `/upload` | 图片、文件上传 |
+| 模块     | 前缀           | 说明                       |
+| -------- | -------------- | -------------------------- |
+| 认证     | `/auth`        | 登录、退出、当前资料、改密 |
+| 工作台   | `/dashboard`   | 汇总卡片数据               |
+| 元数据   | `/meta`        | 表单下拉、分类、类型等     |
+| 线路     | `/line`        | 线路主表                   |
+| 线路套餐 | `/line/suit`   | 线路套餐及价格             |
+| 商品     | `/goods`       | 商品主表                   |
+| 商品规格 | `/goods/sku`   | 商品多规格保存与读取       |
+| 景点     | `/ticket`      | 商家可经营景点只读视图     |
+| 门票套餐 | `/ticket/suit` | 当前商家门票套餐           |
+| 订单     | `/order/*`     | 三类订单列表与详情         |
+| 退款     | `/refund`      | 售后退款处理               |
+| 对账     | `/bill`        | 账单与账期                 |
+| 结算     | `/settlement`  | 结算明细、申请、结算单     |
+| 核销     | `/verify`      | 门票核销                   |
+| 设置     | `/setting`     | 商家资料、账号资料         |
+| 上传     | `/upload`      | 图片、文件上传             |
 
 ## 1. 认证接口
 
@@ -166,11 +170,11 @@ HTTP_TOKEN: xxxxx
 
 ### 请求参数
 
-| 字段 | 类型 | 必填 | 说明 |
-|---|---|---|---|
-| `username` | string | 是 | 商家管理员账号 |
-| `userName` | string | 否 | 兼容旧前端命名 |
-| `password` | string | 是 | 登录密码 |
+| 字段       | 类型   | 必填 | 说明           |
+| ---------- | ------ | ---- | -------------- |
+| `username` | string | 是   | 商家管理员账号 |
+| `userName` | string | 否   | 兼容旧前端命名 |
+| `password` | string | 是   | 登录密码       |
 
 ### 返回 data
 
@@ -242,14 +246,14 @@ HTTP_TOKEN: xxxxx
 
 ### 请求参数
 
-| 字段 | 类型 | 必填 | 说明 |
-|---|---|---|---|
-| `old_password` | string | 是 | 原密码 |
-| `oldPassword` | string | 否 | 兼容旧命名 |
-| `new_password` | string | 是 | 新密码 |
-| `newPassword` | string | 否 | 兼容旧命名 |
-| `confirm_password` | string | 是 | 确认新密码 |
-| `confirmPassword` | string | 否 | 兼容旧命名 |
+| 字段               | 类型   | 必填 | 说明       |
+| ------------------ | ------ | ---- | ---------- |
+| `old_password`     | string | 是   | 原密码     |
+| `oldPassword`      | string | 否   | 兼容旧命名 |
+| `new_password`     | string | 是   | 新密码     |
+| `newPassword`      | string | 否   | 兼容旧命名 |
+| `confirm_password` | string | 是   | 确认新密码 |
+| `confirmPassword`  | string | 否   | 兼容旧命名 |
 
 ### 前端注意
 
@@ -266,15 +270,15 @@ HTTP_TOKEN: xxxxx
 
 ### 返回 data
 
-| 字段 | 类型 | 说明 |
-|---|---|---|
-| `today_turnover` | number | 今日成交额 |
-| `today_order_count` | number | 今日订单数 |
-| `pending_pay_count` | number | 待支付订单数 |
-| `pending_verify_count` | number | 待核销订单数 |
-| `line_count` | number | 线路数量 |
-| `ticket_count` | number | 当前商家可经营景点数量 |
-| `goods_count` | number | 商品数量 |
+| 字段                   | 类型   | 说明                   |
+| ---------------------- | ------ | ---------------------- |
+| `today_turnover`       | number | 今日成交额             |
+| `today_order_count`    | number | 今日订单数             |
+| `pending_pay_count`    | number | 待支付订单数           |
+| `pending_verify_count` | number | 待核销订单数           |
+| `line_count`           | number | 线路数量               |
+| `ticket_count`         | number | 当前商家可经营景点数量 |
+| `goods_count`          | number | 商品数量               |
 
 ## 3. 元数据接口
 
@@ -286,15 +290,15 @@ HTTP_TOKEN: xxxxx
 
 ### 返回 data
 
-| 字段 | 说明 |
-|---|---|
-| `type_list` | 线路类型选项 |
-| `status_list` | 线路状态选项 |
+| 字段                   | 说明         |
+| ---------------------- | ------------ |
+| `type_list`            | 线路类型选项 |
+| `status_list`          | 线路状态选项 |
 | `multi_signatory_list` | 多人签约选项 |
-| `tag_groups` | 属性组及标签 |
-| `start_city_options` | 出发地树 |
-| `end_city_options` | 目的地树 |
-| `site_options` | 上车点树 |
+| `tag_groups`           | 属性组及标签 |
+| `start_city_options`   | 出发地树     |
+| `end_city_options`     | 目的地树     |
+| `site_options`         | 上车点树     |
 
 ## 3.2 商品表单元数据
 
@@ -304,11 +308,11 @@ HTTP_TOKEN: xxxxx
 
 ### 返回 data
 
-| 字段 | 说明 |
-|---|---|
-| `type_list` | 商品类型选项 |
-| `status_list` | 商品状态选项 |
-| `category_options` | 商品分类树 |
+| 字段               | 说明         |
+| ------------------ | ------------ |
+| `type_list`        | 商品类型选项 |
+| `status_list`      | 商品状态选项 |
+| `category_options` | 商品分类树   |
 | `dispatch_options` | 发货模板列表 |
 
 ## 3.3 门票表单元数据
@@ -319,14 +323,14 @@ HTTP_TOKEN: xxxxx
 
 ### 返回 data
 
-| 字段 | 说明 |
-|---|---|
-| `status_list` | 景点状态选项 |
-| `ticket_options` | 当前商家可经营景点列表 |
-| `category_options` | 景点分类树 |
-| `level_options` | 景点等级列表 |
-| `type_options` | 门票类型列表 |
-| `passenger_options` | 游客信息要求选项 |
+| 字段                | 说明                   |
+| ------------------- | ---------------------- |
+| `status_list`       | 景点状态选项           |
+| `ticket_options`    | 当前商家可经营景点列表 |
+| `category_options`  | 景点分类树             |
+| `level_options`     | 景点等级列表           |
+| `type_options`      | 门票类型列表           |
+| `passenger_options` | 游客信息要求选项       |
 
 ## 3.4 快递公司选项
 
@@ -336,17 +340,18 @@ HTTP_TOKEN: xxxxx
 
 ### 返回 data
 
-| 字段 | 说明 |
-|---|---|
+| 字段              | 说明         |
+| ----------------- | ------------ |
 | `express_options` | 快递公司列表 |
 
 ### `express_options[]` 字段
 
-| 字段 | 类型 | 说明 |
-|---|---|---|
-| `id` | int | 快递公司 ID |
+| 字段   | 类型   | 说明         |
+| ------ | ------ | ------------ |
+| `id`   | int    | 快递公司 ID  |
 | `name` | string | 快递公司名称 |
 | `code` | string | 快递公司编码 |
+
 ## 4. 线路接口
 
 ## 4.1 获取线路列表
@@ -357,14 +362,14 @@ HTTP_TOKEN: xxxxx
 
 ### 请求参数
 
-| 字段 | 类型 | 必填 | 说明 |
-|---|---|---|---|
-| `page` | int | 否 | 页码 |
-| `page_size` | int | 否 | 每页条数 |
-| `keyword` | string | 否 | 标题关键词 |
-| `status` | string | 否 | `0`/`1` |
-| `audit_status` | string | 否 | `0` 待审核，`1` 审核通过，`2` 驳回 |
-| `type` | string | 否 | 线路类型 |
+| 字段           | 类型   | 必填 | 说明                               |
+| -------------- | ------ | ---- | ---------------------------------- |
+| `page`         | int    | 否   | 页码                               |
+| `page_size`    | int    | 否   | 每页条数                           |
+| `keyword`      | string | 否   | 标题关键词                         |
+| `status`       | string | 否   | `0`/`1`                            |
+| `audit_status` | string | 否   | `0` 待审核，`1` 审核通过，`2` 驳回 |
+| `type`         | string | 否   | 线路类型                           |
 
 ### 返回项
 
@@ -399,9 +404,9 @@ HTTP_TOKEN: xxxxx
 
 ### 请求参数
 
-| 字段 | 类型 | 必填 | 说明 |
-|---|---|---|---|
-| `id` | int | 是 | 线路 ID |
+| 字段 | 类型 | 必填 | 说明    |
+| ---- | ---- | ---- | ------- |
+| `id` | int  | 是   | 线路 ID |
 
 ### 返回 data
 
@@ -430,29 +435,29 @@ HTTP_TOKEN: xxxxx
 
 ### 允许字段
 
-| 字段 | 说明 |
-|---|---|
-| `title` | 标题 |
-| `desc` | 描述 |
-| `lineday` | 天数 |
-| `linenight` | 晚数 |
-| `linebefore` | 提前报名天数 |
-| `startcity` | 出发地数组或对象数组 |
-| `endcity` | 目的地数组或对象数组 |
-| `tagids` | 标签数组或对象数组 |
-| `insuranceids` | 保险 ID 数组 |
-| `type` | 线路类型 |
-| `min_num` | 最低成团人数 |
-| `mobile` | 联系电话 |
-| `video` | 视频 |
-| `images` | 轮播图 |
-| `dayinfo` | 行程明细 |
-| `content` | 详情 |
-| `content1~content5` | 预留内容 |
-| `poster` | 长图海报 |
-| `site_ids` | 上车点数组或对象数组 |
-| `isMultiSignatory` | 是否多人签署 |
-| `file` | 行程文件 |
+| 字段                | 说明                 |
+| ------------------- | -------------------- |
+| `title`             | 标题                 |
+| `desc`              | 描述                 |
+| `lineday`           | 天数                 |
+| `linenight`         | 晚数                 |
+| `linebefore`        | 提前报名天数         |
+| `startcity`         | 出发地数组或对象数组 |
+| `endcity`           | 目的地数组或对象数组 |
+| `tagids`            | 标签数组或对象数组   |
+| `insuranceids`      | 保险 ID 数组         |
+| `type`              | 线路类型             |
+| `min_num`           | 最低成团人数         |
+| `mobile`            | 联系电话             |
+| `video`             | 视频                 |
+| `images`            | 轮播图               |
+| `dayinfo`           | 行程明细             |
+| `content`           | 详情                 |
+| `content1~content5` | 预留内容             |
+| `poster`            | 长图海报             |
+| `site_ids`          | 上车点数组或对象数组 |
+| `isMultiSignatory`  | 是否多人签署         |
+| `file`              | 行程文件             |
 
 ### 说明
 
@@ -470,9 +475,9 @@ HTTP_TOKEN: xxxxx
 
 在创建字段基础上额外需要：
 
-| 字段 | 类型 | 必填 | 说明 |
-|---|---|---|---|
-| `id` | int | 是 | 线路 ID |
+| 字段 | 类型 | 必填 | 说明    |
+| ---- | ---- | ---- | ------- |
+| `id` | int  | 是   | 线路 ID |
 
 ### 说明
 
@@ -486,10 +491,10 @@ HTTP_TOKEN: xxxxx
 
 ### 请求参数
 
-| 字段 | 类型 | 必填 | 说明 |
-|---|---|---|---|
-| `id` | int | 是 | 线路 ID |
-| `status` | string | 是 | `0` 下架，`1` 上架 |
+| 字段     | 类型   | 必填 | 说明               |
+| -------- | ------ | ---- | ------------------ |
+| `id`     | int    | 是   | 线路 ID            |
+| `status` | string | 是   | `0` 下架，`1` 上架 |
 
 ### 说明
 
@@ -506,12 +511,12 @@ HTTP_TOKEN: xxxxx
 
 ### 请求参数
 
-| 字段 | 类型 | 必填 | 说明 |
-|---|---|---|---|
-| `page` | int | 否 | 页码 |
-| `page_size` | int | 否 | 每页条数 |
-| `line_id` / `lineId` | int | 否 | 按线路筛选 |
-| `keyword` | string | 否 | 套餐名称关键词 |
+| 字段                 | 类型   | 必填 | 说明           |
+| -------------------- | ------ | ---- | -------------- |
+| `page`               | int    | 否   | 页码           |
+| `page_size`          | int    | 否   | 每页条数       |
+| `line_id` / `lineId` | int    | 否   | 按线路筛选     |
+| `keyword`            | string | 否   | 套餐名称关键词 |
 
 ## 5.2 获取线路套餐详情
 
@@ -521,9 +526,9 @@ HTTP_TOKEN: xxxxx
 
 ### 请求参数
 
-| 字段 | 类型 | 必填 | 说明 |
-|---|---|---|---|
-| `id` | int | 是 | 套餐 ID |
+| 字段 | 类型 | 必填 | 说明    |
+| ---- | ---- | ---- | ------- |
+| `id` | int  | 是   | 套餐 ID |
 
 ## 5.3 创建线路套餐
 
@@ -535,38 +540,38 @@ HTTP_TOKEN: xxxxx
 
 主表字段：
 
-| 字段 | 类型 | 必填 | 说明 |
-|---|---|---|---|
-| `lineid` / `line_id` | int | 是 | 所属线路 |
-| `name` | string | 是 | 套餐名称 |
-| `price` | string | 否 | 原始价格展示 |
-| `oldperson` | string | 否 | 老人标准 |
-| `person` | string | 否 | 成人标准 |
-| `child` | string | 否 | 儿童标准 |
-| `room` | string | 否 | 单房差标准 |
-| `content` | string | 否 | 套餐说明 |
+| 字段                 | 类型   | 必填 | 说明         |
+| -------------------- | ------ | ---- | ------------ |
+| `lineid` / `line_id` | int    | 是   | 所属线路     |
+| `name`               | string | 是   | 套餐名称     |
+| `price`              | string | 否   | 原始价格展示 |
+| `oldperson`          | string | 否   | 老人标准     |
+| `person`             | string | 否   | 成人标准     |
+| `child`              | string | 否   | 儿童标准     |
+| `room`               | string | 否   | 单房差标准   |
+| `content`            | string | 否   | 套餐说明     |
 
 价格信息：
 
-| 字段 | 类型 | 必填 | 说明 |
-|---|---|---|---|
-| `priceinfo` / `priceInfo` | array 或 json string | 是 | 价格日历 |
+| 字段                      | 类型                 | 必填 | 说明     |
+| ------------------------- | -------------------- | ---- | -------- |
+| `priceinfo` / `priceInfo` | array 或 json string | 是   | 价格日历 |
 
 ### `priceinfo` 单项结构
 
-| 字段 | 说明 |
-|---|---|
-| `date` | 日期 |
-| `stock` | 库存 |
-| `elderprice` | 老人售价 |
-| `price` | 成人售价 |
-| `childprice` | 儿童售价 |
-| `base_elderprice` | 老人成本 |
-| `base_price` | 成人成本 |
-| `base_childprice` | 儿童成本 |
-| `roomblance` | 单房差售价 |
-| `roomcount` | 单房差规则 |
-| `bxinfo` | 必消信息 |
+| 字段              | 说明       |
+| ----------------- | ---------- |
+| `date`            | 日期       |
+| `stock`           | 库存       |
+| `elderprice`      | 老人售价   |
+| `price`           | 成人售价   |
+| `childprice`      | 儿童售价   |
+| `base_elderprice` | 老人成本   |
+| `base_price`      | 成人成本   |
+| `base_childprice` | 儿童成本   |
+| `roomblance`      | 单房差售价 |
+| `roomcount`       | 单房差规则 |
+| `bxinfo`          | 必消信息   |
 
 ## 5.4 更新线路套餐
 
@@ -578,9 +583,9 @@ HTTP_TOKEN: xxxxx
 
 在创建基础上额外需要：
 
-| 字段 | 类型 | 必填 | 说明 |
-|---|---|---|---|
-| `id` | int | 是 | 套餐 ID |
+| 字段 | 类型 | 必填 | 说明    |
+| ---- | ---- | ---- | ------- |
+| `id` | int  | 是   | 套餐 ID |
 
 ## 5.5 删除线路套餐
 
@@ -590,9 +595,9 @@ HTTP_TOKEN: xxxxx
 
 ### 请求参数
 
-| 字段 | 类型 | 必填 | 说明 |
-|---|---|---|---|
-| `id` | int | 是 | 套餐 ID |
+| 字段 | 类型 | 必填 | 说明    |
+| ---- | ---- | ---- | ------- |
+| `id` | int  | 是   | 套餐 ID |
 
 ## 6. 商品接口
 
@@ -604,13 +609,13 @@ HTTP_TOKEN: xxxxx
 
 ### 请求参数
 
-| 字段 | 类型 | 必填 | 说明 |
-|---|---|---|---|
-| `page` | int | 否 | 页码 |
-| `page_size` | int | 否 | 每页条数 |
-| `keyword` | string | 否 | 标题关键词 |
-| `status` | string | 否 | `up/hidden/down` |
-| `type` | string | 否 | `normal/virtual/card` |
+| 字段        | 类型   | 必填 | 说明                  |
+| ----------- | ------ | ---- | --------------------- |
+| `page`      | int    | 否   | 页码                  |
+| `page_size` | int    | 否   | 每页条数              |
+| `keyword`   | string | 否   | 标题关键词            |
+| `status`    | string | 否   | `up/hidden/down`      |
+| `type`      | string | 否   | `normal/virtual/card` |
 
 ## 6.2 获取商品详情
 
@@ -620,9 +625,9 @@ HTTP_TOKEN: xxxxx
 
 ### 请求参数
 
-| 字段 | 类型 | 必填 | 说明 |
-|---|---|---|---|
-| `id` | int | 是 | 商品 ID |
+| 字段 | 类型 | 必填 | 说明    |
+| ---- | ---- | ---- | ------- |
+| `id` | int  | 是   | 商品 ID |
 
 ### 返回 data
 
@@ -641,7 +646,7 @@ HTTP_TOKEN: xxxxx
 ### `detail` 字段
 
 | 字段 | 类型 | 说明 |
-|---|---|---|
+| --- | --- | --- |
 | `id` | int | 商品 ID |
 | `type` | string | 商品类型，`normal/virtual/card` |
 | `type_text` | string | 商品类型中文 |
@@ -673,56 +678,57 @@ HTTP_TOKEN: xxxxx
 
 ### `sku` 字段
 
-| 字段 | 类型 | 说明 |
-|---|---|---|
-| `mode` | string | SKU 模式，`single` 或 `multiple` |
+| 字段     | 类型        | 说明                                    |
+| -------- | ----------- | --------------------------------------- |
+| `mode`   | string      | SKU 模式，`single` 或 `multiple`        |
 | `detail` | object/null | 单规格详情，仅 `mode=single` 时返回对象 |
-| `list` | array | 规格树，仅 `mode=multiple` 时返回 |
-| `price` | array | 多规格价格行，仅 `mode=multiple` 时返回 |
+| `list`   | array       | 规格树，仅 `mode=multiple` 时返回       |
+| `price`  | array       | 多规格价格行，仅 `mode=multiple` 时返回 |
 
 ### `sku.detail` 字段（`mode=single`）
 
-| 字段 | 类型 | 说明 |
-|---|---|---|
-| `id` | int | SKU 价格行 ID |
-| `stock` | int | 库存 |
-| `sn` | string | SKU 编码 |
-| `weight` | string | 重量 |
-| `price` | string | 售价 |
-| `status` | string | SKU 状态 |
+| 字段     | 类型   | 说明          |
+| -------- | ------ | ------------- |
+| `id`     | int    | SKU 价格行 ID |
+| `stock`  | int    | 库存          |
+| `sn`     | string | SKU 编码      |
+| `weight` | string | 重量          |
+| `price`  | string | 售价          |
+| `status` | string | SKU 状态      |
 
 ### `sku.list[]` 字段（`mode=multiple`）
 
-| 字段 | 类型 | 说明 |
-|---|---|---|
-| `id` | int | 一级规格 ID |
-| `name` | string | 一级规格名称 |
-| `pid` | int | 父级 ID，一级规格固定为 `0` |
-| `children` | array | 二级规格数组 |
+| 字段       | 类型   | 说明                        |
+| ---------- | ------ | --------------------------- |
+| `id`       | int    | 一级规格 ID                 |
+| `name`     | string | 一级规格名称                |
+| `pid`      | int    | 父级 ID，一级规格固定为 `0` |
+| `children` | array  | 二级规格数组                |
 
 ### `sku.list[].children[]` 字段
 
-| 字段 | 类型 | 说明 |
-|---|---|---|
-| `id` | int | 二级规格 ID |
-| `name` | string | 二级规格名称 |
-| `pid` | int | 所属一级规格 ID |
+| 字段   | 类型   | 说明            |
+| ------ | ------ | --------------- |
+| `id`   | int    | 二级规格 ID     |
+| `name` | string | 二级规格名称    |
+| `pid`  | int    | 所属一级规格 ID |
 
 ### `sku.price[]` 字段（`mode=multiple`）
 
-| 字段 | 类型 | 说明 |
-|---|---|---|
-| `id` | int | SKU 价格行 ID |
-| `goods_sku_ids` | array | 规格值 ID 数组 |
-| `goods_sku_text` | array | 规格文案数组 |
-| `image` | string | 规格图片完整 URL |
-| `stock` | int | 库存 |
-| `sn` | string | SKU 编码 |
-| `weight` | string | 重量 |
-| `cost_price` | string | 成本价 |
-| `original_price` | string | 划线价 |
-| `price` | string | 售价 |
-| `status` | string | SKU 状态 |
+| 字段             | 类型   | 说明             |
+| ---------------- | ------ | ---------------- |
+| `id`             | int    | SKU 价格行 ID    |
+| `goods_sku_ids`  | array  | 规格值 ID 数组   |
+| `goods_sku_text` | array  | 规格文案数组     |
+| `image`          | string | 规格图片完整 URL |
+| `stock`          | int    | 库存             |
+| `sn`             | string | SKU 编码         |
+| `weight`         | string | 重量             |
+| `cost_price`     | string | 成本价           |
+| `original_price` | string | 划线价           |
+| `price`          | string | 售价             |
+| `status`         | string | SKU 状态         |
+
 ## 6.3 创建商品
 
 - 方法：`POST`
@@ -731,31 +737,31 @@ HTTP_TOKEN: xxxxx
 
 ### 主表字段
 
-| 字段 | 说明 |
-|---|---|
-| `type` | 商品类型 |
-| `title` | 标题 |
-| `subtitle` | 副标题 |
-| `category_ids` | 分类 ID 数组 |
-| `image` | 主图 |
-| `images` | 轮播图数组或逗号串 |
-| `params` | 参数详情数组 |
-| `content` | 图文详情 |
-| `original_price` | 原价 |
-| `price` | 售价 |
-| `is_sku` | 是否多规格 |
-| `dispatch_type` | 发货方式 |
-| `dispatch_id` | 发货模板 |
-| `status` | 状态 |
+| 字段             | 说明               |
+| ---------------- | ------------------ |
+| `type`           | 商品类型           |
+| `title`          | 标题               |
+| `subtitle`       | 副标题             |
+| `category_ids`   | 分类 ID 数组       |
+| `image`          | 主图               |
+| `images`         | 轮播图数组或逗号串 |
+| `params`         | 参数详情数组       |
+| `content`        | 图文详情           |
+| `original_price` | 原价               |
+| `price`          | 售价               |
+| `is_sku`         | 是否多规格         |
+| `dispatch_type`  | 发货方式           |
+| `dispatch_id`    | 发货模板           |
+| `status`         | 状态               |
 
 ### 单规格附加字段
 
 当 `is_sku = 0` 时，还支持：
 
-| 字段 | 说明 |
-|---|---|
-| `stock` | 库存 |
-| `sn` | 货号 |
+| 字段     | 说明 |
+| -------- | ---- |
+| `stock`  | 库存 |
+| `sn`     | 货号 |
 | `weight` | 重量 |
 
 ### 说明
@@ -775,9 +781,9 @@ HTTP_TOKEN: xxxxx
 
 在创建基础上额外需要：
 
-| 字段 | 类型 | 必填 | 说明 |
-|---|---|---|---|
-| `id` | int | 是 | 商品 ID |
+| 字段 | 类型 | 必填 | 说明    |
+| ---- | ---- | ---- | ------- |
+| `id` | int  | 是   | 商品 ID |
 
 ## 6.5 切换商品状态
 
@@ -787,10 +793,10 @@ HTTP_TOKEN: xxxxx
 
 ### 请求参数
 
-| 字段 | 类型 | 必填 | 说明 |
-|---|---|---|---|
-| `id` | int | 是 | 商品 ID |
-| `status` | string | 是 | `up/hidden/down` |
+| 字段     | 类型   | 必填 | 说明             |
+| -------- | ------ | ---- | ---------------- |
+| `id`     | int    | 是   | 商品 ID          |
+| `status` | string | 是   | `up/hidden/down` |
 
 ## 7. 商品多规格接口
 
@@ -802,9 +808,9 @@ HTTP_TOKEN: xxxxx
 
 ### 请求参数
 
-| 字段 | 类型 | 必填 | 说明 |
-|---|---|---|---|
-| `goods_id` / `goodsId` | int | 是 | 商品 ID |
+| 字段                   | 类型 | 必填 | 说明    |
+| ---------------------- | ---- | ---- | ------- |
+| `goods_id` / `goodsId` | int  | 是   | 商品 ID |
 
 ## 7.2 保存多规格
 
@@ -814,11 +820,11 @@ HTTP_TOKEN: xxxxx
 
 ### 请求参数
 
-| 字段 | 类型 | 必填 | 说明 |
-|---|---|---|---|
-| `goods_id` / `goodsId` | int | 是 | 商品 ID |
-| `listData` | array 或 json string | 是 | 规格树 |
-| `priceData` | array 或 json string | 是 | 规格价格表 |
+| 字段                   | 类型                 | 必填 | 说明       |
+| ---------------------- | -------------------- | ---- | ---------- |
+| `goods_id` / `goodsId` | int                  | 是   | 商品 ID    |
+| `listData`             | array 或 json string | 是   | 规格树     |
+| `priceData`            | array 或 json string | 是   | 规格价格表 |
 
 ### `listData` 结构示例
 
@@ -872,12 +878,12 @@ HTTP_TOKEN: xxxxx
 
 ### 请求参数
 
-| 字段 | 类型 | 必填 | 说明 |
-|---|---|---|---|
-| `page` | int | 否 | 页码 |
-| `page_size` | int | 否 | 每页条数 |
-| `keyword` | string | 否 | 景点名称关键词 |
-| `status` | string | 否 | `hidden/normal` |
+| 字段        | 类型   | 必填 | 说明            |
+| ----------- | ------ | ---- | --------------- |
+| `page`      | int    | 否   | 页码            |
+| `page_size` | int    | 否   | 每页条数        |
+| `keyword`   | string | 否   | 景点名称关键词  |
+| `status`    | string | 否   | `hidden/normal` |
 
 ## 8.2 获取景点详情
 
@@ -887,9 +893,9 @@ HTTP_TOKEN: xxxxx
 
 ### 请求参数
 
-| 字段 | 类型 | 必填 | 说明 |
-|---|---|---|---|
-| `id` | int | 是 | 景点 ID |
+| 字段 | 类型 | 必填 | 说明    |
+| ---- | ---- | ---- | ------- |
+| `id` | int  | 是   | 景点 ID |
 
 ### 返回 data
 
@@ -910,12 +916,12 @@ HTTP_TOKEN: xxxxx
 
 ### 请求参数
 
-| 字段 | 类型 | 必填 | 说明 |
-|---|---|---|---|
-| `page` | int | 否 | 页码 |
-| `page_size` | int | 否 | 每页条数 |
-| `ticket_id` / `ticketId` | int | 否 | 景点 ID |
-| `keyword` | string | 否 | 套餐关键词 |
+| 字段                     | 类型   | 必填 | 说明       |
+| ------------------------ | ------ | ---- | ---------- |
+| `page`                   | int    | 否   | 页码       |
+| `page_size`              | int    | 否   | 每页条数   |
+| `ticket_id` / `ticketId` | int    | 否   | 景点 ID    |
+| `keyword`                | string | 否   | 套餐关键词 |
 
 ## 9.2 获取门票套餐详情
 
@@ -925,9 +931,9 @@ HTTP_TOKEN: xxxxx
 
 ### 请求参数
 
-| 字段 | 类型 | 必填 | 说明 |
-|---|---|---|---|
-| `id` | int | 是 | 门票套餐 ID |
+| 字段 | 类型 | 必填 | 说明        |
+| ---- | ---- | ---- | ----------- |
+| `id` | int  | 是   | 门票套餐 ID |
 
 ## 9.3 创建门票套餐
 
@@ -939,33 +945,33 @@ HTTP_TOKEN: xxxxx
 
 主表字段：
 
-| 字段 | 说明 |
-|---|---|
-| `ticket_id` / `ticketId` | 景点 ID |
-| `name` | 门票名称 |
-| `type_id` | 门票类型 |
-| `tags` | 标签数组 |
-| `explain` | 取票说明 |
-| `content` | 门票介绍 |
-| `price` | 原价 |
-| `before` | 提前预订天数 |
-| `beforetime` | 当天结束时间 |
-| `passenger` | 游客信息要求，`0/1/2` |
+| 字段                     | 说明                  |
+| ------------------------ | --------------------- |
+| `ticket_id` / `ticketId` | 景点 ID               |
+| `name`                   | 门票名称              |
+| `type_id`                | 门票类型              |
+| `tags`                   | 标签数组              |
+| `explain`                | 取票说明              |
+| `content`                | 门票介绍              |
+| `price`                  | 原价                  |
+| `before`                 | 提前预订天数          |
+| `beforetime`             | 当天结束时间          |
+| `passenger`              | 游客信息要求，`0/1/2` |
 
 价格信息：
 
-| 字段 | 类型 | 必填 | 说明 |
-|---|---|---|---|
-| `priceInfo` / `priceinfo` | array 或 json string | 是 | 价格日历 |
+| 字段                      | 类型                 | 必填 | 说明     |
+| ------------------------- | -------------------- | ---- | -------- |
+| `priceInfo` / `priceinfo` | array 或 json string | 是   | 价格日历 |
 
 ### `priceInfo` 单项结构
 
-| 字段 | 说明 |
-|---|---|
-| `date` | 日期 |
-| `stock` | 库存 |
+| 字段         | 说明 |
+| ------------ | ---- |
+| `date`       | 日期 |
+| `stock`      | 库存 |
 | `base_price` | 成本 |
-| `price` | 售价 |
+| `price`      | 售价 |
 
 ### 说明
 
@@ -981,9 +987,9 @@ HTTP_TOKEN: xxxxx
 
 在创建基础上额外需要：
 
-| 字段 | 类型 | 必填 | 说明 |
-|---|---|---|---|
-| `id` | int | 是 | 门票套餐 ID |
+| 字段 | 类型 | 必填 | 说明        |
+| ---- | ---- | ---- | ----------- |
+| `id` | int  | 是   | 门票套餐 ID |
 
 ## 9.5 删除门票套餐
 
@@ -993,9 +999,9 @@ HTTP_TOKEN: xxxxx
 
 ### 请求参数
 
-| 字段 | 类型 | 必填 | 说明 |
-|---|---|---|---|
-| `id` | int | 是 | 门票套餐 ID |
+| 字段 | 类型 | 必填 | 说明        |
+| ---- | ---- | ---- | ----------- |
+| `id` | int  | 是   | 门票套餐 ID |
 
 ## 10. 订单接口
 
@@ -1007,14 +1013,14 @@ HTTP_TOKEN: xxxxx
 
 ### 请求参数
 
-| 字段 | 类型 | 必填 | 说明 |
-|---|---|---|---|
-| `page` | int | 否 | 页码 |
-| `page_size` | int | 否 | 每页条数 |
-| `keyword` | string | 否 | 订单号/联系人/手机号 |
-| `status` | string | 否 | 订单状态 |
-| `date_from` | string | 否 | 开始日期，格式 `YYYY-MM-DD` |
-| `date_to` | string | 否 | 结束日期，格式 `YYYY-MM-DD` |
+| 字段        | 类型   | 必填 | 说明                        |
+| ----------- | ------ | ---- | --------------------------- |
+| `page`      | int    | 否   | 页码                        |
+| `page_size` | int    | 否   | 每页条数                    |
+| `keyword`   | string | 否   | 订单号/联系人/手机号        |
+| `status`    | string | 否   | 订单状态                    |
+| `date_from` | string | 否   | 开始日期，格式 `YYYY-MM-DD` |
+| `date_to`   | string | 否   | 结束日期，格式 `YYYY-MM-DD` |
 
 ### 返回项
 
@@ -1042,12 +1048,12 @@ HTTP_TOKEN: xxxxx
 
 ### `user_info` 字段
 
-| 字段 | 类型 | 说明 |
-|---|---|---|
-| `id` | int | 用户 ID |
-| `nickname` | string | 昵称 |
-| `username` | string | 用户名 |
-| `mobile` | string | 脱敏手机号 |
+| 字段       | 类型   | 说明       |
+| ---------- | ------ | ---------- |
+| `id`       | int    | 用户 ID    |
+| `nickname` | string | 昵称       |
+| `username` | string | 用户名     |
+| `mobile`   | string | 脱敏手机号 |
 
 ## 10.2 线路订单详情
 
@@ -1057,9 +1063,9 @@ HTTP_TOKEN: xxxxx
 
 ### 请求参数
 
-| 字段 | 类型 | 必填 | 说明 |
-|---|---|---|---|
-| `id` | int | 是 | 订单 ID |
+| 字段 | 类型 | 必填 | 说明    |
+| ---- | ---- | ---- | ------- |
+| `id` | int  | 是   | 订单 ID |
 
 ### 返回 data
 
@@ -1079,126 +1085,127 @@ HTTP_TOKEN: xxxxx
 
 ### `detail` 字段
 
-| 字段 | 类型 | 说明 |
-|---|---|---|
-| `id` | int | 订单 ID |
-| `order_sn` | string | 订单号 |
-| `status` | string | 订单状态 |
-| `status_text` | string | 订单状态中文 |
-| `pay_type` | string | 支付方式 |
-| `pay_type_text` | string | 支付方式中文 |
-| `platform` | string | 下单来源 |
-| `platform_text` | string | 下单来源中文 |
-| `date` | string | 出游日期 |
-| `realname` | string | 联系人姓名 |
-| `mobile` | string | 联系手机号 |
-| `remark` | string | 订单备注 |
-| `adult_num` | int | 成人数 |
-| `elder_num` | int | 老人数 |
-| `child_num` | int | 儿童数 |
-| `room_num` | int | 单房差数量 |
-| `adult_price` | string | 成人单价 |
-| `elder_price` | string | 老人单价 |
-| `child_price` | string | 儿童单价 |
-| `room_price` | string | 单房差单价 |
-| `price` | string | 线路基础费用 |
-| `project_fee` | string | 保险费用 |
-| `bx_fee` | string | 必消费用 |
-| `room_fee` | string | 单房差费用 |
-| `total_fee` | string | 订单总金额 |
-| `pay_fee` | string | 实付金额 |
-| `refund_fee` | string | 已退款金额 |
-| `transaction_id` | string | 支付流水号 |
-| `pay_cert` | string | 支付凭证图片 URL，无则为空字符串 |
-| `paytime` | int | 支付时间戳 |
-| `finishtime` | int | 完成时间戳 |
-| `createtime` | int | 创建时间戳 |
-| `user_info` | object | 下单用户信息 |
-| `site_json` | object/null | 上车点信息，未选择时为 `null` |
-| `passengers` | array | 出游人数组 |
-| `bx_info` | array | 必消项目数组 |
-| `line_info` | object | 线路信息 |
-| `suit_info` | object | 套餐信息 |
-| `project_orders` | array | 保险订单数组 |
-| `refund` | object/null | 退款信息，无退款时为 `null` |
+| 字段             | 类型        | 说明                             |
+| ---------------- | ----------- | -------------------------------- |
+| `id`             | int         | 订单 ID                          |
+| `order_sn`       | string      | 订单号                           |
+| `status`         | string      | 订单状态                         |
+| `status_text`    | string      | 订单状态中文                     |
+| `pay_type`       | string      | 支付方式                         |
+| `pay_type_text`  | string      | 支付方式中文                     |
+| `platform`       | string      | 下单来源                         |
+| `platform_text`  | string      | 下单来源中文                     |
+| `date`           | string      | 出游日期                         |
+| `realname`       | string      | 联系人姓名                       |
+| `mobile`         | string      | 联系手机号                       |
+| `remark`         | string      | 订单备注                         |
+| `adult_num`      | int         | 成人数                           |
+| `elder_num`      | int         | 老人数                           |
+| `child_num`      | int         | 儿童数                           |
+| `room_num`       | int         | 单房差数量                       |
+| `adult_price`    | string      | 成人单价                         |
+| `elder_price`    | string      | 老人单价                         |
+| `child_price`    | string      | 儿童单价                         |
+| `room_price`     | string      | 单房差单价                       |
+| `price`          | string      | 线路基础费用                     |
+| `project_fee`    | string      | 保险费用                         |
+| `bx_fee`         | string      | 必消费用                         |
+| `room_fee`       | string      | 单房差费用                       |
+| `total_fee`      | string      | 订单总金额                       |
+| `pay_fee`        | string      | 实付金额                         |
+| `refund_fee`     | string      | 已退款金额                       |
+| `transaction_id` | string      | 支付流水号                       |
+| `pay_cert`       | string      | 支付凭证图片 URL，无则为空字符串 |
+| `paytime`        | int         | 支付时间戳                       |
+| `finishtime`     | int         | 完成时间戳                       |
+| `createtime`     | int         | 创建时间戳                       |
+| `user_info`      | object      | 下单用户信息                     |
+| `site_json`      | object/null | 上车点信息，未选择时为 `null`    |
+| `passengers`     | array       | 出游人数组                       |
+| `bx_info`        | array       | 必消项目数组                     |
+| `line_info`      | object      | 线路信息                         |
+| `suit_info`      | object      | 套餐信息                         |
+| `project_orders` | array       | 保险订单数组                     |
+| `refund`         | object/null | 退款信息，无退款时为 `null`      |
 
 ### `detail.user_info` 字段
 
-| 字段 | 类型 | 说明 |
-|---|---|---|
-| `id` | int | 用户 ID |
-| `nickname` | string | 昵称 |
-| `username` | string | 用户名 |
-| `avatar` | string | 头像完整 URL |
-| `mobile` | string | 用户手机号 |
+| 字段       | 类型   | 说明         |
+| ---------- | ------ | ------------ |
+| `id`       | int    | 用户 ID      |
+| `nickname` | string | 昵称         |
+| `username` | string | 用户名       |
+| `avatar`   | string | 头像完整 URL |
+| `mobile`   | string | 用户手机号   |
 
 ### `detail.site_json` 字段
 
-| 字段 | 类型 | 说明 |
-|---|---|---|
-| `id` | int | 上车点 ID |
+| 字段   | 类型   | 说明       |
+| ------ | ------ | ---------- |
+| `id`   | int    | 上车点 ID  |
 | `name` | string | 上车点名称 |
 
 ### `detail.passengers[]` 字段
 
-| 字段 | 类型 | 说明 |
-|---|---|---|
-| `realname` | string | 出游人姓名 |
-| `mobile` | string | 出游人手机号 |
-| `gender` | int | 性别，通常 `1` 男、`0` 女 |
-| `idcard` | string | 证件号码 |
-| `idtype` | int | 证件类型 |
+| 字段       | 类型   | 说明                      |
+| ---------- | ------ | ------------------------- |
+| `realname` | string | 出游人姓名                |
+| `mobile`   | string | 出游人手机号              |
+| `gender`   | int    | 性别，通常 `1` 男、`0` 女 |
+| `idcard`   | string | 证件号码                  |
+| `idtype`   | int    | 证件类型                  |
 
 ### `detail.bx_info[]` 字段
 
-| 字段 | 类型 | 说明 |
-|---|---|---|
-| `name` | string | 必消项目名称 |
+| 字段    | 类型          | 说明         |
+| ------- | ------------- | ------------ |
+| `name`  | string        | 必消项目名称 |
 | `price` | string/number | 必消项目单价 |
 
 ### `detail.line_info` 字段
 
-| 字段 | 类型 | 说明 |
-|---|---|---|
-| `id` | int | 线路 ID |
+| 字段    | 类型   | 说明     |
+| ------- | ------ | -------- |
+| `id`    | int    | 线路 ID  |
 | `title` | string | 线路标题 |
 
 ### `detail.suit_info` 字段
 
-| 字段 | 类型 | 说明 |
-|---|---|---|
-| `id` | int | 套餐 ID |
+| 字段   | 类型   | 说明     |
+| ------ | ------ | -------- |
+| `id`   | int    | 套餐 ID  |
 | `name` | string | 套餐名称 |
 
 ### `detail.project_orders[]` 字段
 
-| 字段 | 类型 | 说明 |
-|---|---|---|
-| `id` | int | 保险订单 ID |
-| `order_sn` | string | 保险订单号 |
-| `status` | string | 保险订单状态 |
-| `status_text` | string | 保险订单状态中文 |
-| `project_id` | int | 保险产品 ID |
-| `project_name` | string | 保险产品名称 |
-| `project_price` | string | 保险产品单价 |
-| `total_fee` | string | 保险订单金额 |
+| 字段            | 类型   | 说明             |
+| --------------- | ------ | ---------------- |
+| `id`            | int    | 保险订单 ID      |
+| `order_sn`      | string | 保险订单号       |
+| `status`        | string | 保险订单状态     |
+| `status_text`   | string | 保险订单状态中文 |
+| `project_id`    | int    | 保险产品 ID      |
+| `project_name`  | string | 保险产品名称     |
+| `project_price` | string | 保险产品单价     |
+| `total_fee`     | string | 保险订单金额     |
 
 ### `detail.refund` 字段
 
-| 字段 | 类型 | 说明 |
-|---|---|---|
-| `id` | int | 退款记录 ID |
-| `refund_sn` | string | 退款单号 |
-| `type` | string | 退款类型，`line/ticket/goods` |
-| `type_text` | string | 退款类型中文 |
-| `status` | string | 退款处理状态 |
-| `status_text` | string | 退款处理状态中文 |
-| `refund_status` | string | 售后申请状态 |
-| `refund_status_text` | string | 售后申请状态中文 |
-| `refund_fee` | string | 退款金额 |
-| `reason` | string | 退款原因 |
-| `createtime` | int | 退款申请时间戳 |
-| `finishtime` | int | 退款完成时间戳 |
+| 字段                 | 类型   | 说明                          |
+| -------------------- | ------ | ----------------------------- |
+| `id`                 | int    | 退款记录 ID                   |
+| `refund_sn`          | string | 退款单号                      |
+| `type`               | string | 退款类型，`line/ticket/goods` |
+| `type_text`          | string | 退款类型中文                  |
+| `status`             | string | 退款处理状态                  |
+| `status_text`        | string | 退款处理状态中文              |
+| `refund_status`      | string | 售后申请状态                  |
+| `refund_status_text` | string | 售后申请状态中文              |
+| `refund_fee`         | string | 退款金额                      |
+| `reason`             | string | 退款原因                      |
+| `createtime`         | int    | 退款申请时间戳                |
+| `finishtime`         | int    | 退款完成时间戳                |
+
 ## 10.3 门票订单列表
 
 - 方法：`GET`
@@ -1240,12 +1247,12 @@ HTTP_TOKEN: xxxxx
 
 ### `user_info` 字段
 
-| 字段 | 类型 | 说明 |
-|---|---|---|
-| `id` | int | 用户 ID |
-| `nickname` | string | 昵称 |
-| `username` | string | 用户名 |
-| `mobile` | string | 脱敏手机号 |
+| 字段       | 类型   | 说明       |
+| ---------- | ------ | ---------- |
+| `id`       | int    | 用户 ID    |
+| `nickname` | string | 昵称       |
+| `username` | string | 用户名     |
+| `mobile`   | string | 脱敏手机号 |
 
 ## 10.4 门票订单详情
 
@@ -1255,9 +1262,9 @@ HTTP_TOKEN: xxxxx
 
 ### 请求参数
 
-| 字段 | 类型 | 必填 | 说明 |
-|---|---|---|---|
-| `id` | int | 是 | 订单 ID |
+| 字段 | 类型 | 必填 | 说明    |
+| ---- | ---- | ---- | ------- |
+| `id` | int  | 是   | 订单 ID |
 
 ### 返回 data
 
@@ -1275,99 +1282,100 @@ HTTP_TOKEN: xxxxx
 
 ### `detail` 字段
 
-| 字段 | 类型 | 说明 |
-|---|---|---|
-| `id` | int | 订单 ID |
-| `order_sn` | string | 订单号 |
-| `status` | string | 订单状态 |
-| `status_text` | string | 订单状态中文 |
-| `pay_type` | string | 支付方式 |
-| `pay_type_text` | string | 支付方式中文 |
-| `platform` | string | 下单来源 |
-| `platform_text` | string | 下单来源中文 |
-| `date` | string | 游玩日期 |
-| `realname` | string | 联系人姓名 |
-| `mobile` | string | 联系手机号 |
-| `remark` | string | 订单备注 |
-| `number` | int | 门票数量 |
-| `price` | string | 门票单价 |
-| `total_fee` | string | 订单总金额 |
-| `pay_fee` | string | 实付金额 |
-| `refund_fee` | string | 已退款金额 |
-| `transaction_id` | string | 支付流水号 |
-| `pay_cert` | string | 支付凭证图片 URL，无则为空字符串 |
-| `paytime` | int | 支付时间戳 |
-| `finishtime` | int | 完成时间戳 |
-| `createtime` | int | 创建时间戳 |
-| `user_info` | object | 下单用户信息 |
-| `passengers` | array | 出游人数组 |
-| `ticket_info` | object | 景点信息 |
-| `suit_info` | object | 套餐信息 |
-| `verify_info` | object/null | 核销信息，未生成时为 `null` |
-| `refund` | object/null | 退款信息，无退款时为 `null` |
+| 字段             | 类型        | 说明                             |
+| ---------------- | ----------- | -------------------------------- |
+| `id`             | int         | 订单 ID                          |
+| `order_sn`       | string      | 订单号                           |
+| `status`         | string      | 订单状态                         |
+| `status_text`    | string      | 订单状态中文                     |
+| `pay_type`       | string      | 支付方式                         |
+| `pay_type_text`  | string      | 支付方式中文                     |
+| `platform`       | string      | 下单来源                         |
+| `platform_text`  | string      | 下单来源中文                     |
+| `date`           | string      | 游玩日期                         |
+| `realname`       | string      | 联系人姓名                       |
+| `mobile`         | string      | 联系手机号                       |
+| `remark`         | string      | 订单备注                         |
+| `number`         | int         | 门票数量                         |
+| `price`          | string      | 门票单价                         |
+| `total_fee`      | string      | 订单总金额                       |
+| `pay_fee`        | string      | 实付金额                         |
+| `refund_fee`     | string      | 已退款金额                       |
+| `transaction_id` | string      | 支付流水号                       |
+| `pay_cert`       | string      | 支付凭证图片 URL，无则为空字符串 |
+| `paytime`        | int         | 支付时间戳                       |
+| `finishtime`     | int         | 完成时间戳                       |
+| `createtime`     | int         | 创建时间戳                       |
+| `user_info`      | object      | 下单用户信息                     |
+| `passengers`     | array       | 出游人数组                       |
+| `ticket_info`    | object      | 景点信息                         |
+| `suit_info`      | object      | 套餐信息                         |
+| `verify_info`    | object/null | 核销信息，未生成时为 `null`      |
+| `refund`         | object/null | 退款信息，无退款时为 `null`      |
 
 ### `detail.user_info` 字段
 
-| 字段 | 类型 | 说明 |
-|---|---|---|
-| `id` | int | 用户 ID |
-| `nickname` | string | 昵称 |
-| `username` | string | 用户名 |
-| `avatar` | string | 头像完整 URL |
-| `mobile` | string | 用户手机号 |
+| 字段       | 类型   | 说明         |
+| ---------- | ------ | ------------ |
+| `id`       | int    | 用户 ID      |
+| `nickname` | string | 昵称         |
+| `username` | string | 用户名       |
+| `avatar`   | string | 头像完整 URL |
+| `mobile`   | string | 用户手机号   |
 
 ### `detail.passengers[]` 字段
 
-| 字段 | 类型 | 说明 |
-|---|---|---|
-| `realname` | string | 出游人姓名 |
-| `mobile` | string | 出游人手机号 |
-| `gender` | int | 性别，通常 `1` 男、`0` 女 |
-| `idcard` | string | 证件号码 |
-| `idtype` | int | 证件类型 |
+| 字段       | 类型   | 说明                      |
+| ---------- | ------ | ------------------------- |
+| `realname` | string | 出游人姓名                |
+| `mobile`   | string | 出游人手机号              |
+| `gender`   | int    | 性别，通常 `1` 男、`0` 女 |
+| `idcard`   | string | 证件号码                  |
+| `idtype`   | int    | 证件类型                  |
 
 ### `detail.ticket_info` 字段
 
-| 字段 | 类型 | 说明 |
-|---|---|---|
-| `id` | int | 景点 ID |
+| 字段    | 类型   | 说明     |
+| ------- | ------ | -------- |
+| `id`    | int    | 景点 ID  |
 | `title` | string | 景点标题 |
 
 ### `detail.suit_info` 字段
 
-| 字段 | 类型 | 说明 |
-|---|---|---|
-| `id` | int | 套餐 ID |
+| 字段   | 类型   | 说明     |
+| ------ | ------ | -------- |
+| `id`   | int    | 套餐 ID  |
 | `name` | string | 套餐名称 |
 
 ### `detail.verify_info` 字段
 
-| 字段 | 类型 | 说明 |
-|---|---|---|
-| `id` | int | 核销记录 ID |
-| `code` | string | 核销码 |
-| `status` | string | 核销状态 |
+| 字段          | 类型   | 说明         |
+| ------------- | ------ | ------------ |
+| `id`          | int    | 核销记录 ID  |
+| `code`        | string | 核销码       |
+| `status`      | string | 核销状态     |
 | `status_text` | string | 核销状态中文 |
-| `verifytime` | int | 核销时间戳 |
-| `merch_id` | int | 商家 ID |
-| `saler_id` | int | 核销员 ID |
+| `verifytime`  | int    | 核销时间戳   |
+| `merch_id`    | int    | 商家 ID      |
+| `saler_id`    | int    | 核销员 ID    |
 
 ### `detail.refund` 字段
 
-| 字段 | 类型 | 说明 |
-|---|---|---|
-| `id` | int | 退款记录 ID |
-| `refund_sn` | string | 退款单号 |
-| `type` | string | 退款类型，`line/ticket/goods` |
-| `type_text` | string | 退款类型中文 |
-| `status` | string | 退款处理状态 |
-| `status_text` | string | 退款处理状态中文 |
-| `refund_status` | string | 售后申请状态 |
-| `refund_status_text` | string | 售后申请状态中文 |
-| `refund_fee` | string | 退款金额 |
-| `reason` | string | 退款原因 |
-| `createtime` | int | 退款申请时间戳 |
-| `finishtime` | int | 退款完成时间戳 |
+| 字段                 | 类型   | 说明                          |
+| -------------------- | ------ | ----------------------------- |
+| `id`                 | int    | 退款记录 ID                   |
+| `refund_sn`          | string | 退款单号                      |
+| `type`               | string | 退款类型，`line/ticket/goods` |
+| `type_text`          | string | 退款类型中文                  |
+| `status`             | string | 退款处理状态                  |
+| `status_text`        | string | 退款处理状态中文              |
+| `refund_status`      | string | 售后申请状态                  |
+| `refund_status_text` | string | 售后申请状态中文              |
+| `refund_fee`         | string | 退款金额                      |
+| `reason`             | string | 退款原因                      |
+| `createtime`         | int    | 退款申请时间戳                |
+| `finishtime`         | int    | 退款完成时间戳                |
+
 ## 10.5 商品订单列表
 
 - 方法：`GET`
@@ -1407,12 +1415,12 @@ HTTP_TOKEN: xxxxx
 
 ### `user_info` 字段
 
-| 字段 | 类型 | 说明 |
-|---|---|---|
-| `id` | int | 用户 ID |
-| `nickname` | string | 昵称 |
-| `username` | string | 用户名 |
-| `mobile` | string | 脱敏手机号 |
+| 字段       | 类型   | 说明       |
+| ---------- | ------ | ---------- |
+| `id`       | int    | 用户 ID    |
+| `nickname` | string | 昵称       |
+| `username` | string | 用户名     |
+| `mobile`   | string | 脱敏手机号 |
 
 ## 10.6 商品订单详情
 
@@ -1422,9 +1430,9 @@ HTTP_TOKEN: xxxxx
 
 ### 请求参数
 
-| 字段 | 类型 | 必填 | 说明 |
-|---|---|---|---|
-| `id` | int | 是 | 订单 ID |
+| 字段 | 类型 | 必填 | 说明    |
+| ---- | ---- | ---- | ------- |
+| `id` | int  | 是   | 订单 ID |
 
 ### 返回 data
 
@@ -1440,7 +1448,7 @@ HTTP_TOKEN: xxxxx
 ### `detail` 字段
 
 | 字段 | 类型 | 说明 |
-|---|---|---|
+| --- | --- | --- |
 | `id` | int | 订单 ID |
 | `order_sn` | string | 订单号 |
 | `type` | string | 订单类型，当前支持 `goods/score` |
@@ -1474,45 +1482,377 @@ HTTP_TOKEN: xxxxx
 
 ### `detail.user_info` 字段
 
-| 字段 | 类型 | 说明 |
-|---|---|---|
-| `id` | int | 用户 ID |
-| `nickname` | string | 昵称 |
-| `username` | string | 用户名 |
-| `avatar` | string | 头像完整 URL |
-| `mobile` | string | 用户手机号 |
+| 字段       | 类型   | 说明         |
+| ---------- | ------ | ------------ |
+| `id`       | int    | 用户 ID      |
+| `nickname` | string | 昵称         |
+| `username` | string | 用户名       |
+| `avatar`   | string | 头像完整 URL |
+| `mobile`   | string | 用户手机号   |
 
 ### `detail.items[]` 字段
 
-| 字段 | 类型 | 说明 |
-|---|---|---|
-| `id` | int | 订单商品明细 ID |
-| `goods_id` | int | 商品 ID |
-| `goods_title` | string | 商品标题 |
-| `goods_sku_text` | string | 下单时的规格文案 |
-| `goods_num` | int | 商品数量 |
-| `goods_price` | string | 商品单价 |
-| `pay_price` | string | 商品实付金额 |
-| `dispatch_fee` | string | 商品分摊运费 |
-| `dispatch_status` | string | 发货状态 |
-| `dispatch_status_text` | string | 发货状态中文 |
-| `aftersale_status` | string | 售后状态 |
-| `aftersale_status_text` | string | 售后状态中文 |
-| `refund_status` | string | 退款状态 |
-| `refund_status_text` | string | 退款状态中文 |
-| `refund_fee` | string | 已退款金额 |
+| 字段                    | 类型   | 说明             |
+| ----------------------- | ------ | ---------------- |
+| `id`                    | int    | 订单商品明细 ID  |
+| `goods_id`              | int    | 商品 ID          |
+| `goods_title`           | string | 商品标题         |
+| `goods_sku_text`        | string | 下单时的规格文案 |
+| `goods_num`             | int    | 商品数量         |
+| `goods_price`           | string | 商品单价         |
+| `pay_price`             | string | 商品实付金额     |
+| `dispatch_fee`          | string | 商品分摊运费     |
+| `dispatch_status`       | string | 发货状态         |
+| `dispatch_status_text`  | string | 发货状态中文     |
+| `aftersale_status`      | string | 售后状态         |
+| `aftersale_status_text` | string | 售后状态中文     |
+| `refund_status`         | string | 退款状态         |
+| `refund_status_text`    | string | 退款状态中文     |
+| `refund_fee`            | string | 已退款金额       |
 
 ### `detail.express[]` 字段
 
-| 字段 | 类型 | 说明 |
-|---|---|---|
-| `id` | int | 发货记录 ID |
-| `express_name` | string | 快递公司名称 |
-| `express_code` | string | 快递公司编码 |
-| `express_no` | string | 快递单号 |
-| `createtime` | int | 发货记录创建时间戳 |
+| 字段           | 类型   | 说明               |
+| -------------- | ------ | ------------------ |
+| `id`           | int    | 发货记录 ID        |
+| `express_name` | string | 快递公司名称       |
+| `express_code` | string | 快递公司编码       |
+| `express_no`   | string | 快递单号           |
+| `createtime`   | int    | 发货记录创建时间戳 |
 
-## 10.7 退款订单列表
+## 10.7 结算总览
+
+### 适用范围
+
+当前商家端 `settlement/*` 接口只面向**内部结算链路**，也就是仅处理：
+
+- `settle_channel = internal` 的订单
+- 当前已落地的主要场景为：`external` 外部供应商 + `money` 余额支付 + 订单完成后进入内部结算
+
+以下订单**不走**这套商家端结算接口：
+
+- `settle_channel = wechat_profitsharing` 的微信服务商分账订单
+- 平台自营且不需要供应商打款结算的订单
+
+前端接入时应按订单或结算明细返回的 `settle_channel` 判断链路，避免把微信分账订单误接入“申请结算单”流程。
+
+- 方法：`GET`
+- 路径：`/merchant-api/settlement/overview`
+- 处理器：`merchant/Settlement@overview`
+
+### 返回 data
+
+```json
+{
+  "overview": {
+    "pending_amount": "26.00",
+    "settled_amount": "28.00",
+    "refund_amount": "0.00",
+    "pending_count": 2,
+    "settled_count": 1
+  }
+}
+```
+
+### `overview` 字段
+
+| 字段 | 类型 | 说明 |
+| --- | --- | --- |
+| `pending_amount` | string | 当前待结算金额，统计 `settlement_status in (pending, part_refunded)` 的 `current_settle_amount` |
+| `settled_amount` | string | 已结算金额，统计 `settlement_status=settled` 的 `current_settle_amount` |
+| `refund_amount` | string | 退款影响金额，统计 `settlement_status in (part_refunded, refunded)` 的 `refund_fee` |
+| `pending_count` | int | 待结算明细数量 |
+| `settled_count` | int | 已打款结算单数量 |
+
+## 10.8 结算明细列表
+
+- 方法：`GET`
+- 路径：`/merchant-api/settlement/item-list`
+- 处理器：`merchant/Settlement@itemList`
+
+### 请求参数
+
+| 字段 | 类型 | 必填 | 说明 |
+| --- | --- | --- | --- |
+| `page` | int | 否 | 页码 |
+| `page_size` | int | 否 | 每页条数 |
+| `keyword` | string | 否 | 订单号关键字 |
+| `biz_type` | string | 否 | 业务类型，`line/ticket/goods` |
+| `settlement_status` | string | 否 | 结算状态，`pending/processing/settled/part_refunded/refunded/closed` |
+| `date_from` | string | 否 | 开始日期，格式 `YYYY-MM-DD` |
+| `date_to` | string | 否 | 结束日期，格式 `YYYY-MM-DD` |
+
+### 返回项
+
+每项包含：
+
+- `id`
+- `biz_type`
+- `biz_type_text`
+- `item_type`
+- `item_type_text`
+- `order_sn`
+- `pay_type`
+- `payment_mode`
+- `settle_channel`
+- `settle_channel_text`
+- `pay_fee`
+- `refund_fee`
+- `settle_amount`
+- `current_settle_amount`
+- `platform_amount`
+- `settlement_status`
+- `settlement_status_text`
+- `settlement_apply_id`
+- `apply_status`
+- `apply_status_text`
+- `settlement_order_id`
+- `completed_at`
+- `settled_at`
+- `remark`
+
+### 字段说明
+
+| 字段 | 类型 | 说明 |
+| --- | --- | --- |
+| `id` | int | 结算明细 ID |
+| `biz_type` | string | 业务类型，`line/ticket/goods` |
+| `biz_type_text` | string | 业务类型中文 |
+| `item_type` | string | 明细类型，`normal` 正常结算，`refund_adjust` 退款红字调整 |
+| `item_type_text` | string | 明细类型中文 |
+| `order_sn` | string | 业务订单号 |
+| `pay_type` | string | 支付方式原始值，如 `wechat`、`money`、`sys` |
+| `payment_mode` | string | 支付模式，当前可能为 `direct` 直连商户、`service_provider` 服务商模式，内部结算场景下也可能为空 |
+| `settle_channel` | string | 结算通道，`none` 无、`wechat_profitsharing` 微信分账、`internal` 内部结算 |
+| `settle_channel_text` | string | 结算通道中文 |
+| `pay_fee` | string | 订单支付金额 |
+| `refund_fee` | string | 当前累计退款金额 |
+| `settle_amount` | string | 原始结算金额快照，支付完成后固化 |
+| `current_settle_amount` | string | 当前待结金额，已考虑退款扣减后的可结算金额 |
+| `platform_amount` | string | 平台留存金额 |
+| `settlement_status` | string | 结算状态，`pending/processing/settled/part_refunded/refunded/closed` |
+| `settlement_status_text` | string | 结算状态中文 |
+| `settlement_apply_id` | int | 关联的结算申请 ID，`0` 表示尚未申请 |
+| `apply_status` | string | 申请状态，`none/pending/approved/rejected` |
+| `apply_status_text` | string | 申请状态中文 |
+| `settlement_order_id` | int | 关联的结算单 ID，`0` 表示尚未生成结算单 |
+| `completed_at` | int | 订单完成时间戳 |
+| `settled_at` | int | 实际结算完成时间戳，未打款时一般为 `0` |
+| `remark` | string | 结算备注 |
+
+### 说明
+
+- `settlement_apply_id=0` 表示尚未进入结算申请
+- `apply_status` 取值：
+  - `none` 未申请
+  - `pending` 申请中
+  - `approved` 已通过
+  - `rejected` 已驳回
+
+## 10.9 提交结算申请
+
+- 方法：`POST`
+- 路径：`/merchant-api/settlement/apply-create`
+- 处理器：`merchant/Settlement@applyCreate`
+
+### 请求参数
+
+| 字段     | 类型   | 必填 | 说明                     |
+| -------- | ------ | ---- | ------------------------ |
+| `ids`    | int[]  | 是   | 待申请的结算明细 ID 数组 |
+| `remark` | string | 否   | 申请备注                 |
+
+### 返回 data
+
+```json
+{
+  "apply": {
+    "id": 12,
+    "apply_no": "SA202605071030001234"
+  }
+}
+```
+
+### 说明
+
+- 只允许申请当前商家自己的内部结算明细
+- 仅 `settlement_status in (pending, part_refunded)` 且 `settlement_order_id=0` 的明细可申请
+- 提交后，明细会写入：
+  - `settlement_apply_id`
+  - `apply_status = pending`
+
+## 10.10 结算申请列表
+
+- 方法：`GET`
+- 路径：`/merchant-api/settlement/apply-list`
+- 处理器：`merchant/Settlement@applyList`
+
+### 请求参数
+
+| 字段 | 类型 | 必填 | 说明 |
+| --- | --- | --- | --- |
+| `page` | int | 否 | 页码 |
+| `page_size` | int | 否 | 每页条数 |
+| `keyword` | string | 否 | 申请单号关键字 |
+| `status` | string | 否 | 申请状态，`pending/approved/rejected/paid/closed` |
+| `date_from` | string | 否 | 开始日期，格式 `YYYY-MM-DD` |
+| `date_to` | string | 否 | 结束日期，格式 `YYYY-MM-DD` |
+
+### 返回项
+
+每项包含：
+
+- `id`
+- `apply_no`
+- `order_count`
+- `apply_amount`
+- `status`
+- `status_text`
+- `remark`
+- `audit_remark`
+- `settlement_order_id`
+- `apply_time`
+- `audit_time`
+- `pay_time`
+
+### 字段说明
+
+| 字段 | 类型 | 说明 |
+| --- | --- | --- |
+| `id` | int | 结算申请 ID |
+| `apply_no` | string | 结算申请单号 |
+| `order_count` | int | 本次申请包含的结算明细数量 |
+| `apply_amount` | string | 本次申请金额合计 |
+| `status` | string | 申请状态，`pending/approved/rejected/paid/closed` |
+| `status_text` | string | 申请状态中文 |
+| `remark` | string | 商家提交申请时填写的备注 |
+| `audit_remark` | string | 平台审核备注或驳回原因 |
+| `settlement_order_id` | int | 关联结算单 ID，未生成时为 `0` |
+| `apply_time` | int | 申请提交时间戳 |
+| `audit_time` | int | 平台审核时间戳，未审核时为 `0` |
+| `pay_time` | int | 实际打款时间戳，未打款时为 `0` |
+
+## 10.11 结算申请详情
+
+- 方法：`GET`
+- 路径：`/merchant-api/settlement/apply-detail`
+- 处理器：`merchant/Settlement@applyDetail`
+
+### 请求参数
+
+| 字段 | 类型 | 必填 | 说明        |
+| ---- | ---- | ---- | ----------- |
+| `id` | int  | 是   | 结算申请 ID |
+
+### 返回 data
+
+```json
+{
+  "detail": {
+    "id": 12,
+    "apply_no": "SA202605071030001234",
+    "order_count": 2,
+    "apply_amount": "26.00",
+    "status": "pending",
+    "status_text": "待审核",
+    "remark": "",
+    "audit_remark": "",
+    "settlement_order_id": 0,
+    "apply_time": 1778123456,
+    "audit_time": 0,
+    "pay_time": 0,
+    "items": []
+  }
+}
+```
+
+### `detail` 字段
+
+| 字段 | 类型 | 说明 |
+| --- | --- | --- |
+| `id` | int | 结算申请 ID |
+| `apply_no` | string | 结算申请单号 |
+| `order_count` | int | 本次申请包含的结算明细数量 |
+| `apply_amount` | string | 本次申请金额合计 |
+| `status` | string | 申请状态，`pending/approved/rejected/paid/closed` |
+| `status_text` | string | 申请状态中文 |
+| `remark` | string | 商家申请备注 |
+| `audit_remark` | string | 平台审核备注或驳回原因 |
+| `settlement_order_id` | int | 关联结算单 ID，未生成时为 `0` |
+| `apply_time` | int | 申请提交时间戳 |
+| `audit_time` | int | 平台审核时间戳，未审核时为 `0` |
+| `pay_time` | int | 实际打款时间戳，未打款时为 `0` |
+| `items` | array | 本次申请关联的结算明细列表 |
+
+### `detail.items[]` 字段
+
+| 字段                     | 类型   | 说明         |
+| ------------------------ | ------ | ------------ |
+| `id`                     | int    | 结算明细 ID  |
+| `biz_type`               | string | 业务类型     |
+| `biz_type_text`          | string | 业务类型中文 |
+| `order_sn`               | string | 订单号       |
+| `settle_amount`          | string | 原始结算金额 |
+| `current_settle_amount`  | string | 当前待结金额 |
+| `settlement_status`      | string | 结算状态     |
+| `settlement_status_text` | string | 结算状态中文 |
+
+## 10.12 结算单列表
+
+- 方法：`GET`
+- 路径：`/merchant-api/settlement/order-list`
+- 处理器：`merchant/Settlement@orderList`
+
+### 请求参数
+
+| 字段        | 类型   | 必填 | 说明                                 |
+| ----------- | ------ | ---- | ------------------------------------ |
+| `page`      | int    | 否   | 页码                                 |
+| `page_size` | int    | 否   | 每页条数                             |
+| `keyword`   | string | 否   | 结算单号关键字                       |
+| `status`    | string | 否   | 结算单状态，`pending/settled/closed` |
+| `date_from` | string | 否   | 开始日期，格式 `YYYY-MM-DD`          |
+| `date_to`   | string | 否   | 结束日期，格式 `YYYY-MM-DD`          |
+
+### 返回项
+
+每项包含：
+
+- `id`
+- `settlement_no`
+- `order_count`
+- `settle_amount`
+- `adjust_amount`
+- `final_amount`
+- `status`
+- `status_text`
+- `pay_voucher`
+- `pay_time`
+- `period_start`
+- `period_end`
+- `remark`
+- `createtime`
+
+### 字段说明
+
+| 字段            | 类型   | 说明                                 |
+| --------------- | ------ | ------------------------------------ |
+| `id`            | int    | 结算单 ID                            |
+| `settlement_no` | string | 结算单号                             |
+| `order_count`   | int    | 结算单内包含的订单/结算明细数量      |
+| `settle_amount` | string | 结算金额合计                         |
+| `adjust_amount` | string | 调整金额，正负都可能出现             |
+| `final_amount`  | string | 最终打款金额                         |
+| `status`        | string | 结算单状态，`pending/settled/closed` |
+| `status_text`   | string | 结算单状态中文                       |
+| `pay_voucher`   | string | 打款凭证地址，未上传时可能为空       |
+| `pay_time`      | int    | 实际打款时间戳，未打款时为 `0`       |
+| `period_start`  | int    | 本结算单统计周期开始时间戳           |
+| `period_end`    | int    | 本结算单统计周期结束时间戳           |
+| `remark`        | string | 平台结算备注                         |
+| `createtime`    | int    | 结算单创建时间戳                     |
+
+## 10.13 退款订单列表
 
 - 方法：`GET`
 - 路径：`/merchant-api/refund/list`
@@ -1521,7 +1861,7 @@ HTTP_TOKEN: xxxxx
 ### 请求参数
 
 | 字段 | 类型 | 必填 | 说明 |
-|---|---|---|---|
+| --- | --- | --- | --- |
 | `page` | int | 否 | 页码 |
 | `page_size` | int | 否 | 每页条数 |
 | `keyword` | string | 否 | 关键字，匹配退款单号、订单号、备注、拒绝原因、用户昵称/手机号/用户名 |
@@ -1559,13 +1899,13 @@ HTTP_TOKEN: xxxxx
 
 ### `user_info` 字段
 
-| 字段 | 类型 | 说明 |
-|---|---|---|
-| `id` | int | 用户 ID |
-| `username` | string | 用户名 |
-| `nickname` | string | 昵称 |
-| `avatar` | string | 头像完整 URL |
-| `mobile` | string | 脱敏手机号 |
+| 字段       | 类型   | 说明         |
+| ---------- | ------ | ------------ |
+| `id`       | int    | 用户 ID      |
+| `username` | string | 用户名       |
+| `nickname` | string | 昵称         |
+| `avatar`   | string | 头像完整 URL |
+| `mobile`   | string | 脱敏手机号   |
 
 ### `order_info` 字段
 
@@ -1575,7 +1915,7 @@ HTTP_TOKEN: xxxxx
 - `ticket`：`id`、`order_sn`、`date`、`realname`、`mobile`、`title`、`suit_name`、`total_fee`、`pay_fee`
 - `goods`：`id`、`order_sn`、`consignee`、`mobile`、`goods_title`、`goods_sku_text`、`total_fee`、`pay_fee`
 
-## 10.8 退款订单详情
+## 10.14 退款订单详情
 
 - 方法：`GET`
 - 路径：`/merchant-api/refund/detail`
@@ -1583,9 +1923,9 @@ HTTP_TOKEN: xxxxx
 
 ### 请求参数
 
-| 字段 | 类型 | 必填 | 说明 |
-|---|---|---|---|
-| `id` | int | 是 | 退款订单 ID |
+| 字段 | 类型 | 必填 | 说明        |
+| ---- | ---- | ---- | ----------- |
+| `id` | int  | 是   | 退款订单 ID |
 
 ### 返回 data
 
@@ -1605,7 +1945,7 @@ HTTP_TOKEN: xxxxx
 ### `detail` 字段
 
 | 字段 | 类型 | 说明 |
-|---|---|---|
+| --- | --- | --- |
 | `id` | int | 退款订单 ID |
 | `user_id` | int | 用户 ID |
 | `order_sn` | string | 原订单号 |
@@ -1638,13 +1978,13 @@ HTTP_TOKEN: xxxxx
 
 ### `user_info` 字段
 
-| 字段 | 类型 | 说明 |
-|---|---|---|
-| `id` | int | 用户 ID |
-| `username` | string | 用户名 |
-| `nickname` | string | 昵称 |
-| `avatar` | string | 头像完整 URL |
-| `mobile` | string | 手机号 |
+| 字段       | 类型   | 说明         |
+| ---------- | ------ | ------------ |
+| `id`       | int    | 用户 ID      |
+| `username` | string | 用户名       |
+| `nickname` | string | 昵称         |
+| `avatar`   | string | 头像完整 URL |
+| `mobile`   | string | 手机号       |
 
 ### `order_info` 字段
 
@@ -1652,110 +1992,110 @@ HTTP_TOKEN: xxxxx
 
 #### `type=line`
 
-| 字段 | 类型 | 说明 |
-|---|---|---|
-| `id` | int | 订单 ID |
-| `order_sn` | string | 订单号 |
-| `status` | string | 订单状态 |
-| `status_text` | string | 订单状态中文 |
-| `pay_type` | string | 支付方式 |
+| 字段            | 类型   | 说明         |
+| --------------- | ------ | ------------ |
+| `id`            | int    | 订单 ID      |
+| `order_sn`      | string | 订单号       |
+| `status`        | string | 订单状态     |
+| `status_text`   | string | 订单状态中文 |
+| `pay_type`      | string | 支付方式     |
 | `pay_type_text` | string | 支付方式中文 |
-| `platform` | string | 下单来源 |
+| `platform`      | string | 下单来源     |
 | `platform_text` | string | 下单来源中文 |
-| `date` | string | 出游日期 |
-| `realname` | string | 联系人姓名 |
-| `mobile` | string | 联系手机号 |
-| `remark` | string | 订单备注 |
-| `total_fee` | string | 订单总金额 |
-| `pay_fee` | string | 实付金额 |
-| `refund_fee` | string | 已退款金额 |
+| `date`          | string | 出游日期     |
+| `realname`      | string | 联系人姓名   |
+| `mobile`        | string | 联系手机号   |
+| `remark`        | string | 订单备注     |
+| `total_fee`     | string | 订单总金额   |
+| `pay_fee`       | string | 实付金额     |
+| `refund_fee`    | string | 已退款金额   |
 
 #### `type=ticket`
 
-| 字段 | 类型 | 说明 |
-|---|---|---|
-| `id` | int | 订单 ID |
-| `order_sn` | string | 订单号 |
-| `status` | string | 订单状态 |
-| `status_text` | string | 订单状态中文 |
-| `pay_type` | string | 支付方式 |
+| 字段            | 类型   | 说明         |
+| --------------- | ------ | ------------ |
+| `id`            | int    | 订单 ID      |
+| `order_sn`      | string | 订单号       |
+| `status`        | string | 订单状态     |
+| `status_text`   | string | 订单状态中文 |
+| `pay_type`      | string | 支付方式     |
 | `pay_type_text` | string | 支付方式中文 |
-| `platform` | string | 下单来源 |
+| `platform`      | string | 下单来源     |
 | `platform_text` | string | 下单来源中文 |
-| `date` | string | 游玩日期 |
-| `realname` | string | 联系人姓名 |
-| `mobile` | string | 联系手机号 |
-| `remark` | string | 订单备注 |
-| `number` | int | 门票数量 |
-| `total_fee` | string | 订单总金额 |
-| `pay_fee` | string | 实付金额 |
-| `refund_fee` | string | 已退款金额 |
+| `date`          | string | 游玩日期     |
+| `realname`      | string | 联系人姓名   |
+| `mobile`        | string | 联系手机号   |
+| `remark`        | string | 订单备注     |
+| `number`        | int    | 门票数量     |
+| `total_fee`     | string | 订单总金额   |
+| `pay_fee`       | string | 实付金额     |
+| `refund_fee`    | string | 已退款金额   |
 
 #### `type=goods`
 
-| 字段 | 类型 | 说明 |
-|---|---|---|
-| `id` | int | 订单 ID |
-| `order_sn` | string | 订单号 |
-| `status` | string | 订单状态 |
-| `status_text` | string | 订单状态中文 |
-| `pay_type` | string | 支付方式 |
-| `pay_type_text` | string | 支付方式中文 |
-| `platform` | string | 下单来源 |
-| `platform_text` | string | 下单来源中文 |
-| `consignee` | string | 收货人 |
-| `mobile` | string | 收货手机号 |
-| `remark` | string | 订单备注 |
-| `goods_amount` | string | 商品金额 |
-| `dispatch_amount` | string | 运费金额 |
-| `total_fee` | string | 订单总金额 |
-| `pay_fee` | string | 实付金额 |
-| `refund_fee` | string | 已退款金额 |
+| 字段              | 类型   | 说明         |
+| ----------------- | ------ | ------------ |
+| `id`              | int    | 订单 ID      |
+| `order_sn`        | string | 订单号       |
+| `status`          | string | 订单状态     |
+| `status_text`     | string | 订单状态中文 |
+| `pay_type`        | string | 支付方式     |
+| `pay_type_text`   | string | 支付方式中文 |
+| `platform`        | string | 下单来源     |
+| `platform_text`   | string | 下单来源中文 |
+| `consignee`       | string | 收货人       |
+| `mobile`          | string | 收货手机号   |
+| `remark`          | string | 订单备注     |
+| `goods_amount`    | string | 商品金额     |
+| `dispatch_amount` | string | 运费金额     |
+| `total_fee`       | string | 订单总金额   |
+| `pay_fee`         | string | 实付金额     |
+| `refund_fee`      | string | 已退款金额   |
 
 ### `line_info` 字段
 
-| 字段 | 类型 | 说明 |
-|---|---|---|
-| `id` | int | 线路 ID |
+| 字段    | 类型   | 说明     |
+| ------- | ------ | -------- |
+| `id`    | int    | 线路 ID  |
 | `title` | string | 线路标题 |
 
 ### `ticket_info` 字段
 
-| 字段 | 类型 | 说明 |
-|---|---|---|
-| `id` | int | 景点 ID |
+| 字段    | 类型   | 说明     |
+| ------- | ------ | -------- |
+| `id`    | int    | 景点 ID  |
 | `title` | string | 景点标题 |
 
 ### `suit_info` 字段
 
-| 字段 | 类型 | 说明 |
-|---|---|---|
-| `id` | int | 套餐 ID |
+| 字段   | 类型   | 说明     |
+| ------ | ------ | -------- |
+| `id`   | int    | 套餐 ID  |
 | `name` | string | 套餐名称 |
 
 ### `goods_item` 字段
 
-| 字段 | 类型 | 说明 |
-|---|---|---|
-| `id` | int | 订单商品明细 ID |
-| `order_id` | int | 订单 ID |
-| `goods_id` | int | 商品 ID |
-| `goods_title` | string | 商品标题 |
-| `goods_image` | string | 商品图片完整 URL |
-| `goods_sku_text` | string | 规格文案 |
-| `goods_num` | int | 商品数量 |
-| `goods_price` | string | 商品单价 |
-| `pay_price` | string | 商品实付金额 |
-| `dispatch_fee` | string | 分摊运费 |
-| `dispatch_status` | string | 发货状态 |
-| `dispatch_status_text` | string | 发货状态中文 |
-| `aftersale_status` | string | 售后状态 |
-| `aftersale_status_text` | string | 售后状态中文 |
-| `refund_status` | string | 退款状态 |
-| `refund_status_text` | string | 退款状态中文 |
-| `refund_fee` | string | 已退款金额 |
+| 字段                    | 类型   | 说明             |
+| ----------------------- | ------ | ---------------- |
+| `id`                    | int    | 订单商品明细 ID  |
+| `order_id`              | int    | 订单 ID          |
+| `goods_id`              | int    | 商品 ID          |
+| `goods_title`           | string | 商品标题         |
+| `goods_image`           | string | 商品图片完整 URL |
+| `goods_sku_text`        | string | 规格文案         |
+| `goods_num`             | int    | 商品数量         |
+| `goods_price`           | string | 商品单价         |
+| `pay_price`             | string | 商品实付金额     |
+| `dispatch_fee`          | string | 分摊运费         |
+| `dispatch_status`       | string | 发货状态         |
+| `dispatch_status_text`  | string | 发货状态中文     |
+| `aftersale_status`      | string | 售后状态         |
+| `aftersale_status_text` | string | 售后状态中文     |
+| `refund_status`         | string | 退款状态         |
+| `refund_status_text`    | string | 退款状态中文     |
+| `refund_fee`            | string | 已退款金额       |
 
-## 10.9 通过退款
+## 10.15 通过退款
 
 - 方法：`POST`
 - 路径：`/merchant-api/refund/pass`
@@ -1763,13 +2103,13 @@ HTTP_TOKEN: xxxxx
 
 ### 请求参数
 
-| 字段 | 类型 | 必填 | 说明 |
-|---|---|---|---|
-| `id` | int | 是 | 退款订单 ID |
+| 字段 | 类型 | 必填 | 说明        |
+| ---- | ---- | ---- | ----------- |
+| `id` | int  | 是   | 退款订单 ID |
 
 ### 返回 data
 
-返回最新 `detail`，字段结构与 `10.8 退款订单详情` 一致。
+返回最新 `detail`，字段结构与 `10.14 退款订单详情` 一致。
 
 ### 说明
 
@@ -1778,7 +2118,7 @@ HTTP_TOKEN: xxxxx
 - 商品退款会校验累计退款金额不能超过整单金额
 - 真正退款执行逻辑复用后台退款模型
 
-## 10.10 拒绝退款
+## 10.16 拒绝退款
 
 - 方法：`POST`
 - 路径：`/merchant-api/refund/reject`
@@ -1786,14 +2126,14 @@ HTTP_TOKEN: xxxxx
 
 ### 请求参数
 
-| 字段 | 类型 | 必填 | 说明 |
-|---|---|---|---|
-| `id` | int | 是 | 退款订单 ID |
-| `reject_msg` | string | 是 | 拒绝原因，兼容 `rejectMsg` |
+| 字段         | 类型   | 必填 | 说明                       |
+| ------------ | ------ | ---- | -------------------------- |
+| `id`         | int    | 是   | 退款订单 ID                |
+| `reject_msg` | string | 是   | 拒绝原因，兼容 `rejectMsg` |
 
 ### 返回 data
 
-返回最新 `detail`，字段结构与 `10.8 退款订单详情` 一致。
+返回最新 `detail`，字段结构与 `10.14 退款订单详情` 一致。
 
 ### 说明
 
@@ -1801,7 +2141,7 @@ HTTP_TOKEN: xxxxx
 - 仅 `refund_status=1` 的退款单可拒绝
 - 拒绝商品退款时会同步把对应商品明细售后状态改为已拒绝
 
-## 10.11 线路订单确认支付
+## 10.17 线路订单确认支付
 
 - 方法：`POST`
 - 路径：`/merchant-api/order/line/pay`
@@ -1809,10 +2149,10 @@ HTTP_TOKEN: xxxxx
 
 ### 请求参数
 
-| 字段 | 类型 | 必填 | 说明 |
-|---|---|---|---|
-| `id` | int | 是 | 订单 ID |
-| `pay_cert` | string | 否 | 支付凭证图片 URL，表存在该字段时会保存 |
+| 字段       | 类型   | 必填 | 说明                                   |
+| ---------- | ------ | ---- | -------------------------------------- |
+| `id`       | int    | 是   | 订单 ID                                |
+| `pay_cert` | string | 否   | 支付凭证图片 URL，表存在该字段时会保存 |
 
 ### 返回 data
 
@@ -1824,7 +2164,7 @@ HTTP_TOKEN: xxxxx
 - 仅 `status=0` 的待支付订单可确认支付
 - 确认后订单会走后台支付逻辑，支付方式记为 `sys`
 
-## 10.12 线路订单完成
+## 10.18 线路订单完成
 
 - 方法：`POST`
 - 路径：`/merchant-api/order/line/finish`
@@ -1832,9 +2172,9 @@ HTTP_TOKEN: xxxxx
 
 ### 请求参数
 
-| 字段 | 类型 | 必填 | 说明 |
-|---|---|---|---|
-| `id` | int | 是 | 订单 ID |
+| 字段 | 类型 | 必填 | 说明    |
+| ---- | ---- | ---- | ------- |
+| `id` | int  | 是   | 订单 ID |
 
 ### 返回 data
 
@@ -1846,7 +2186,7 @@ HTTP_TOKEN: xxxxx
 - 仅 `status=1` 的已支付订单可完成
 - 完成后会同步触发订单完成事件与通知
 
-## 10.13 线路合同详情
+## 10.19 线路合同详情
 
 - 方法：`GET`
 - 路径：`/merchant-api/order/line/contract-detail`
@@ -1854,9 +2194,9 @@ HTTP_TOKEN: xxxxx
 
 ### 请求参数
 
-| 字段 | 类型 | 必填 | 说明 |
-|---|---|---|---|
-| `id` | int | 是 | 线路订单 ID |
+| 字段 | 类型 | 必填 | 说明        |
+| ---- | ---- | ---- | ----------- |
+| `id` | int  | 是   | 线路订单 ID |
 
 ### 返回 data
 
@@ -1875,43 +2215,43 @@ HTTP_TOKEN: xxxxx
 
 ### `detail` 字段
 
-| 字段 | 类型 | 说明 |
-|---|---|---|
-| `order_id` | int | 订单 ID |
-| `order_sn` | string | 订单号 |
-| `status` | string | 订单状态 |
-| `status_text` | string | 订单状态中文 |
-| `contract_enabled` | bool | 当前商家是否开启电子合同 |
-| `contract` | object/null | 合同信息，未生成时为 `null` |
-| `can_send` | bool | 是否可生成合同 |
-| `can_repeat` | bool | 是否可重发合同 |
-| `can_invalid` | bool | 是否可作废合同 |
-| `can_repeat_invalid` | bool | 是否可重发作废通知 |
+| 字段                 | 类型        | 说明                        |
+| -------------------- | ----------- | --------------------------- |
+| `order_id`           | int         | 订单 ID                     |
+| `order_sn`           | string      | 订单号                      |
+| `status`             | string      | 订单状态                    |
+| `status_text`        | string      | 订单状态中文                |
+| `contract_enabled`   | bool        | 当前商家是否开启电子合同    |
+| `contract`           | object/null | 合同信息，未生成时为 `null` |
+| `can_send`           | bool        | 是否可生成合同              |
+| `can_repeat`         | bool        | 是否可重发合同              |
+| `can_invalid`        | bool        | 是否可作废合同              |
+| `can_repeat_invalid` | bool        | 是否可重发作废通知          |
 
 ### `detail.contract` 字段
 
-| 字段 | 类型 | 说明 |
-|---|---|---|
-| `id` | int | 合同记录 ID |
-| `order_id` | int | 订单 ID |
-| `contractNumber` | string | 合同编号 |
-| `fileURL` | string | 合同文件地址 |
-| `signingURL` | string | 签署链接 |
-| `QRCodeURL` | string | 二维码链接 |
-| `state` | string | 合同状态值 |
-| `state_text` | string | 合同状态中文 |
-| `signStatus` | string | 签署状态值 |
-| `signStatus_text` | string | 签署状态中文 |
-| `signedtime` | int | 签署时间戳 |
-| `signedtime_text` | string | 签署时间文本 |
-| `invalidetime` | int | 作废时间戳 |
+| 字段                | 类型   | 说明         |
+| ------------------- | ------ | ------------ |
+| `id`                | int    | 合同记录 ID  |
+| `order_id`          | int    | 订单 ID      |
+| `contractNumber`    | string | 合同编号     |
+| `fileURL`           | string | 合同文件地址 |
+| `signingURL`        | string | 签署链接     |
+| `QRCodeURL`         | string | 二维码链接   |
+| `state`             | string | 合同状态值   |
+| `state_text`        | string | 合同状态中文 |
+| `signStatus`        | string | 签署状态值   |
+| `signStatus_text`   | string | 签署状态中文 |
+| `signedtime`        | int    | 签署时间戳   |
+| `signedtime_text`   | string | 签署时间文本 |
+| `invalidetime`      | int    | 作废时间戳   |
 | `invalidetime_text` | string | 作废时间文本 |
-| `content` | string | 合同内容 |
-| `error_message` | string | 错误信息 |
-| `createtime` | int | 创建时间戳 |
-| `updatetime` | int | 更新时间戳 |
+| `content`           | string | 合同内容     |
+| `error_message`     | string | 错误信息     |
+| `createtime`        | int    | 创建时间戳   |
+| `updatetime`        | int    | 更新时间戳   |
 
-## 10.14 线路合同操作
+## 10.20 线路合同操作
 
 - 方法：`POST`
 - 路径：`/merchant-api/order/line/contract-action`
@@ -1919,10 +2259,10 @@ HTTP_TOKEN: xxxxx
 
 ### 请求参数
 
-| 字段 | 类型 | 必填 | 说明 |
-|---|---|---|---|
-| `id` | int | 是 | 线路订单 ID |
-| `type` | string | 是 | 合同操作类型：`send/repeat/invalid/repeatInvalid` |
+| 字段   | 类型   | 必填 | 说明                                              |
+| ------ | ------ | ---- | ------------------------------------------------- |
+| `id`   | int    | 是   | 线路订单 ID                                       |
+| `type` | string | 是   | 合同操作类型：`send/repeat/invalid/repeatInvalid` |
 
 ### 返回 data
 
@@ -1934,7 +2274,7 @@ HTTP_TOKEN: xxxxx
 - 商家未开启电子合同时会直接报错
 - `send` 仅允许已支付订单发起
 
-## 10.15 门票订单确认支付
+## 10.21 门票订单确认支付
 
 - 方法：`POST`
 - 路径：`/merchant-api/order/ticket/pay`
@@ -1942,10 +2282,10 @@ HTTP_TOKEN: xxxxx
 
 ### 请求参数
 
-| 字段 | 类型 | 必填 | 说明 |
-|---|---|---|---|
-| `id` | int | 是 | 订单 ID |
-| `pay_cert` | string | 否 | 支付凭证图片 URL，表存在该字段时会保存 |
+| 字段       | 类型   | 必填 | 说明                                   |
+| ---------- | ------ | ---- | -------------------------------------- |
+| `id`       | int    | 是   | 订单 ID                                |
+| `pay_cert` | string | 否   | 支付凭证图片 URL，表存在该字段时会保存 |
 
 ### 返回 data
 
@@ -1957,7 +2297,7 @@ HTTP_TOKEN: xxxxx
 - 仅 `status=0` 的待支付订单可确认支付
 - 确认后订单会走后台支付逻辑，支付方式记为 `sys`
 
-## 10.16 门票订单完成
+## 10.22 门票订单完成
 
 - 方法：`POST`
 - 路径：`/merchant-api/order/ticket/finish`
@@ -1965,9 +2305,9 @@ HTTP_TOKEN: xxxxx
 
 ### 请求参数
 
-| 字段 | 类型 | 必填 | 说明 |
-|---|---|---|---|
-| `id` | int | 是 | 订单 ID |
+| 字段 | 类型 | 必填 | 说明    |
+| ---- | ---- | ---- | ------- |
+| `id` | int  | 是   | 订单 ID |
 
 ### 返回 data
 
@@ -1979,7 +2319,7 @@ HTTP_TOKEN: xxxxx
 - 仅 `status=1` 的已支付订单可完成
 - 完成后会同步触发订单完成事件与通知
 
-## 10.17 商品订单发货
+## 10.23 商品订单发货
 
 - 方法：`POST`
 - 路径：`/merchant-api/order/goods/send`
@@ -1987,11 +2327,11 @@ HTTP_TOKEN: xxxxx
 
 ### 请求参数
 
-| 字段 | 类型 | 必填 | 说明 |
-|---|---|---|---|
-| `id` | int | 是 | 订单 ID |
-| `express_id` | int | 是 | 快递公司 ID，可通过 `3.4 快递公司选项` 获取 |
-| `express_no` | string | 是 | 快递单号 |
+| 字段         | 类型   | 必填 | 说明                                        |
+| ------------ | ------ | ---- | ------------------------------------------- |
+| `id`         | int    | 是   | 订单 ID                                     |
+| `express_id` | int    | 是   | 快递公司 ID，可通过 `3.4 快递公司选项` 获取 |
+| `express_no` | string | 是   | 快递单号                                    |
 
 ### 返回 data
 
@@ -2004,7 +2344,7 @@ HTTP_TOKEN: xxxxx
 - 发货后订单状态会改为 `2`，并记录 `sendtime`
 - 若平台配置了自动确认收货时间，会同步投递自动确认队列
 
-## 10.18 商品订单完成
+## 10.24 商品订单完成
 
 - 方法：`POST`
 - 路径：`/merchant-api/order/goods/finish`
@@ -2012,9 +2352,9 @@ HTTP_TOKEN: xxxxx
 
 ### 请求参数
 
-| 字段 | 类型 | 必填 | 说明 |
-|---|---|---|---|
-| `id` | int | 是 | 订单 ID |
+| 字段 | 类型 | 必填 | 说明    |
+| ---- | ---- | ---- | ------- |
+| `id` | int  | 是   | 订单 ID |
 
 ### 返回 data
 
@@ -2036,12 +2376,12 @@ HTTP_TOKEN: xxxxx
 
 ### 请求参数
 
-| 字段 | 类型 | 必填 | 说明 |
-|---|---|---|---|
-| `page` | int | 否 | 页码 |
-| `page_size` | int | 否 | 每页条数 |
-| `keyword` | string | 否 | 核销码/订单号/联系人/手机号 |
-| `status` | string | 否 | `0` 待核销，`1` 已核销 |
+| 字段        | 类型   | 必填 | 说明                        |
+| ----------- | ------ | ---- | --------------------------- |
+| `page`      | int    | 否   | 页码                        |
+| `page_size` | int    | 否   | 每页条数                    |
+| `keyword`   | string | 否   | 核销码/订单号/联系人/手机号 |
+| `status`    | string | 否   | `0` 待核销，`1` 已核销      |
 
 ### 返回项
 
@@ -2068,12 +2408,12 @@ HTTP_TOKEN: xxxxx
 
 ### `user_info` 字段
 
-| 字段 | 类型 | 说明 |
-|---|---|---|
-| `id` | int | 用户 ID |
-| `nickname` | string | 昵称 |
-| `username` | string | 用户名 |
-| `mobile` | string | 脱敏手机号 |
+| 字段       | 类型   | 说明       |
+| ---------- | ------ | ---------- |
+| `id`       | int    | 用户 ID    |
+| `nickname` | string | 昵称       |
+| `username` | string | 用户名     |
+| `mobile`   | string | 脱敏手机号 |
 
 ## 11.2 获取门票核销详情
 
@@ -2085,10 +2425,10 @@ HTTP_TOKEN: xxxxx
 
 二选一传入：
 
-| 字段 | 类型 | 必填 | 说明 |
-|---|---|---|---|
-| `id` | int | 否 | 核销记录 ID |
-| `code` | string | 否 | 核销码 |
+| 字段   | 类型   | 必填 | 说明        |
+| ------ | ------ | ---- | ----------- |
+| `id`   | int    | 否   | 核销记录 ID |
+| `code` | string | 否   | 核销码      |
 
 ### 返回 data
 
@@ -2115,10 +2455,10 @@ HTTP_TOKEN: xxxxx
 
 二选一传入：
 
-| 字段 | 类型 | 必填 | 说明 |
-|---|---|---|---|
-| `id` | int | 否 | 核销记录 ID |
-| `code` | string | 否 | 核销码 |
+| 字段   | 类型   | 必填 | 说明        |
+| ------ | ------ | ---- | ----------- |
+| `id`   | int    | 否   | 核销记录 ID |
+| `code` | string | 否   | 核销码      |
 
 ### 说明
 
@@ -2142,23 +2482,23 @@ HTTP_TOKEN: xxxxx
 
 ### 请求参数
 
-| 字段 | 说明 |
-|---|---|
-| `name` | 商家名称 |
-| `logo` | 商家 Logo |
-| `mobile` | 联系电话 |
-| `kf_url` | 客服链接 |
-| `corp_id` | 企业微信企业 ID |
-| `transactorName` | 经办人姓名 |
-| `transactorPhone` | 经办人电话 |
-| `agencyName` | 旅行社名称 |
-| `travelAgencyLicenseNumber` | 旅行社许可证号 |
-| `businessLicenseNumber` | 营业执照号/统一社会信用代码 |
-| `area` | 省市区数组或 `/` 拼接字符串 |
-| `description` | 详细地址 |
-| `contactName` | 联系人 |
-| `contactPhone` | 联系电话 |
-| `servicePhone` | 客服电话 |
+| 字段                        | 说明                        |
+| --------------------------- | --------------------------- |
+| `name`                      | 商家名称                    |
+| `logo`                      | 商家 Logo                   |
+| `mobile`                    | 联系电话                    |
+| `kf_url`                    | 客服链接                    |
+| `corp_id`                   | 企业微信企业 ID             |
+| `transactorName`            | 经办人姓名                  |
+| `transactorPhone`           | 经办人电话                  |
+| `agencyName`                | 旅行社名称                  |
+| `travelAgencyLicenseNumber` | 旅行社许可证号              |
+| `businessLicenseNumber`     | 营业执照号/统一社会信用代码 |
+| `area`                      | 省市区数组或 `/` 拼接字符串 |
+| `description`               | 详细地址                    |
+| `contactName`               | 联系人                      |
+| `contactPhone`              | 联系电话                    |
+| `servicePhone`              | 客服电话                    |
 
 ## 12.3 获取账号资料
 
@@ -2174,12 +2514,12 @@ HTTP_TOKEN: xxxxx
 
 ### 请求参数
 
-| 字段 | 说明 |
-|---|---|
-| `nickname` | 昵称 |
-| `avatar` | 头像 |
-| `email` | 邮箱 |
-| `mobile` | 手机号 |
+| 字段       | 说明   |
+| ---------- | ------ |
+| `nickname` | 昵称   |
+| `avatar`   | 头像   |
+| `email`    | 邮箱   |
+| `mobile`   | 手机号 |
 
 ## 13. 上传接口
 
@@ -2193,19 +2533,19 @@ HTTP_TOKEN: xxxxx
 
 普通上传：
 
-| 字段 | 类型 | 必填 | 说明 |
-|---|---|---|---|
-| `file` | file | 是 | 图片文件 |
+| 字段   | 类型 | 必填 | 说明     |
+| ------ | ---- | ---- | -------- |
+| `file` | file | 是   | 图片文件 |
 
 分片上传支持：
 
-| 字段 | 说明 |
-|---|---|
-| `chunkid` | 分片 ID |
-| `action` | `merge` 时表示合并 |
-| `chunkindex` | 分片索引 |
-| `chunkcount` | 分片总数 |
-| `filename` | 原始文件名 |
+| 字段         | 说明               |
+| ------------ | ------------------ |
+| `chunkid`    | 分片 ID            |
+| `action`     | `merge` 时表示合并 |
+| `chunkindex` | 分片索引           |
+| `chunkcount` | 分片总数           |
+| `filename`   | 原始文件名         |
 
 ## 13.2 文件上传
 
@@ -2215,14 +2555,14 @@ HTTP_TOKEN: xxxxx
 
 ### 返回 data
 
-| 字段 | 说明 |
-|---|---|
-| `id` | 附件 ID |
-| `url` | 相对路径 |
-| `fullurl` | 完整访问地址 |
-| `mimetype` | 文件类型 |
-| `filesize` | 文件大小 |
-| `storage` | 存储类型 |
+| 字段       | 说明         |
+| ---------- | ------------ |
+| `id`       | 附件 ID      |
+| `url`      | 相对路径     |
+| `fullurl`  | 完整访问地址 |
+| `mimetype` | 文件类型     |
+| `filesize` | 文件大小     |
+| `storage`  | 存储类型     |
 
 ## 当前业务约束
 
@@ -2262,12 +2602,25 @@ HTTP_TOKEN: xxxxx
 
 前端传入的 `merch_id` 不参与授权判断。
 
+## 5. 结算链路边界
 
-## ?????????????????
-- udit_status`r
-- udit_status_text`r
-- udit_remark`r
-- udit_time`r
-- udit_admin_id`r
-- ?????????????????
-- ?? udit_status=1 ??????
+当前系统中的供应商结算，分为两条链路：
+
+1. 微信服务商分账
+
+- 适用于 `settle_channel = wechat_profitsharing`
+- 订单完成后由平台自动发起微信分账
+- 退款前需要先回退分账
+- 不走商家端 `settlement/*` 申请结算流程
+
+2. 内部结算
+
+- 适用于 `settle_channel = internal`
+- 当前主要是外部供应商的余额支付订单
+- 订单完成后生成结算明细
+- 商家端再走：
+  - 结算明细查询
+  - 提交结算申请
+  - 平台审核
+  - 生成结算单
+  - 线下打款/后台标记打款

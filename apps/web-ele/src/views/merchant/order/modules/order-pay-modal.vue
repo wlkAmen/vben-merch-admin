@@ -5,10 +5,7 @@ import { useVbenModal } from '@vben/common-ui';
 
 import { ElMessage } from 'element-plus';
 
-import {
-  payLineOrderApi,
-  payTicketOrderApi,
-} from '#/api';
+import { payLineOrderApi, payTicketOrderApi } from '#/api';
 import MerchantImageUpload from '#/views/merchant/common/image-upload.vue';
 
 defineOptions({ name: 'MerchantOrderPayModal' });
@@ -90,8 +87,8 @@ const [Modal, modalApi] = useVbenModal({
         <div class="text-sm text-muted-foreground">
           订单号：{{ currentOrderSn || '-' }}
         </div>
-        <div class="mt-2 text-sm text-muted-foreground">
-          可上传支付凭证图片，便于后续核对；如无需留档，也可直接确认支付。
+        <div class="mt-2 text-sm leading-6 text-muted-foreground">
+          确认后订单会走后台支付逻辑，支付方式会更新为系统入账。可选上传支付凭证，方便后续核对；如果没有留档要求，也可以直接确认。
         </div>
       </div>
 

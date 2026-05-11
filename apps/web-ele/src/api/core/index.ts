@@ -7,6 +7,7 @@ export * from './menu';
 export * from './order';
 export * from './refund';
 export * from './setting';
+export * from './settlement';
 export * from './ticket';
 export * from './upload';
 export * from './user';
