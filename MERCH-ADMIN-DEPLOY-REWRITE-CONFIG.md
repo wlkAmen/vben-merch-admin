@@ -49,7 +49,7 @@ dist/_app.config.js
 确认里面的接口地址仍然是：
 
 ```js
-VITE_GLOB_API_URL: '/merchant-api'
+VITE_GLOB_API_URL: '/merchant-api';
 ```
 
 如果不是，请重新打包或修改运行时配置文件。
